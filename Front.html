@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Front Page</title>
+    <link rel = "stylesheet"
+    type = "text/css"
+    href= "global.css"> <!-- css file -->
+    <script src=""></script> <!-- javascript file -->
+
+    <!-- below is all Bootstrap related -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-sm">
+      <ul class="navbar-nav">
+        <a class="navbar-brand" href="#">Logo</a> <!-- TODO add logo img --> 
+          
+        <li class="nav-item">
+          <a class="nav-link" href="#">All Polls</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Archives</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About us</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            Admin Stuff <!-- TODO better name -->
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Create Polls</a> <!-- Admin only -->
+            <a class="dropdown-item" href="#">User Details</a> <!-- Admin only -->
+            <a class="dropdown-item" href="#">Create Admin</a> <!-- Super admin only -->
+            <a class="dropdown-item" href="#">Remove Admin</a> <!-- Super admin only -->
+          </div>
+      </ul>
+    </nav>
+      
+    <!-- MAIN CONTENT OF PAGE-->
+    <main class="container-fluid"> <!-- TODO change based on whether logged in or not -->
+      <h1>Personalised Polls</h1>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container-fluid date-modified">
+        <!-- TODO Maybe some copyright stuff here or contact us at... stuff?-->
+        <p>This page was last modified:</p><br> <!-- TODO javascript function for getting time last modified -->
+      </div>
+    </footer>
+  </body>
+</html>

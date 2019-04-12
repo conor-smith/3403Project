@@ -1,0 +1,15 @@
+/*
+  This CSS file is for elements that are on every page
+  on the website e.g. the nav bar and footer
+*/
+
+.navbar {
+  background-color: black;
+}
+.navbar a {
+  color: white;
+}
+
+footer .date-modified{
+  text-align: center;
+}
