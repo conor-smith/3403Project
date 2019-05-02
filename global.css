@@ -4,12 +4,33 @@
 */
 
 .navbar {
-  background-color: black;
+  background-color: #696C76;
 }
+
 .navbar a {
   color: white;
 }
 
-footer .date-modified{
+.dropdown-menu a {
+  color: black;
+}
+
+.jumbotron {
+  margin-bottom: 0;
+}
+
+main {
+  margin-bottom: 2%;
+}
+
+footer {
+  padding-top: 3%;
+  padding-bottom: 3%; 
   text-align: center;
+  background-color: #f8f9fa;
+}
+
+h2 {
+  padding-top: 2%; 
+  padding-bottom: 1%; 
 }
