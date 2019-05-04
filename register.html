@@ -54,41 +54,26 @@
         </li>
       </ul>
     </nav>
-      
-    <!-- JUMBOTRON -->
-    <div class="jumbotron"> <!-- TODO show only if not logged in-->
-      <h1 class="display-4">Media Ranking Website</h1>
-      <p class="lead">This website aims to rank different forms of media based on user polling. </p> <!-- TODO improve description-->
-      <a class="btn btn-primary btn-lg" href="#" role="button">Register</a> <!-- TODO create 
-        'About Us' page which this button would send you to-->
-      <a class="btn btn-secondary btn-lg" href="#" role="button">Learn more</a> <!-- TODO create 
-        'About Us' page which this button would send you to-->
-    </div>
 
     <!-- MAIN CONTENT -->
-    <main class="container-fluid"> <!-- TODO show random polls if not logged in,
-      otherwise show personalised selection-->
-      <h2>Personalised Polls</h2>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
-        </div>
-        <div class="col-md-4 mb-3">
-          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
-        </div>
-        <div class="col-md-4 mb-3">
-          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
-        </div>
-        <div class="col-md-4 mb-3">
-          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
-        </div>
-        <div class="col-md-4 mb-3">
-          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
-        </div>
-        <div class="col-md-4 mb-3">
-          <a href="#"> <img class="img-fluid" src="img/poster.png" alt="Poll Image"> </a>
-        </div>
-      </div>
+    <main class="container-fluid">
+      <h1>Enter your details</h1>
+      <form>
+        Username: <input type = "text"><br><br>
+        email: <input type = "email"><br><br>
+        Password: <input type = "password"><br><br>
+        Repeat Password: <input type = "password"><br><br>
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              Preferred polls
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Games</a>
+              <a class="dropdown-item" href="#">Movies</a>
+              <a class="dropdown-item" href="#">Music</a>
+            </div>
+          </div>
+      </form>
     </main>
 
     <!-- Login popup -->
