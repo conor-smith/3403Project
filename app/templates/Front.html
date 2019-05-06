@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not user %}
+  <!-- JUMBOTRON -->
+  <div class = "jumbotron"> <!-- TODO show only if not logged in-->
+    <h1 class = "display-4">Media Ranking Website</h1>
+    <p class = "lead">This website aims to rank different forms of media based on user polling. </p> <!-- TODO improve description-->
+    <a class = "btn btn-primary btn-lg" href="register.html" role="button">Register</a> <!-- TODO create 
+      'About Us' page which this button would send you to-->
+    <a class = "btn btn-secondary btn-lg" href="about-us.html" role="button">Learn more</a> <!-- TODO create 
+      'About Us' page which this button would send you to-->
+  </div>
+{% endif %}
+
+<!-- MAIN CONTENT -->
+<main class = "container-fluid"> <!-- TODO show random polls if not logged in,
+  otherwise show personalised selection-->
+  <h2>Personalised Polls</h2>
+  <div class = "row">
+    {% for p in polls %}
+    <div class = "col-md-4 mb-3">
+      <a href = "#"> <img class = "img-fluid" src = "{{ url_for('static', filename=p.img) }}" alt = "Poll Image"> </a>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}
