@@ -35,8 +35,7 @@ h2 {
   padding-bottom: 1%; 
 }
 
-#ulogin
-{
+#ulogin {
   display: none;
   position: fixed;
   top: 50px;
@@ -49,8 +48,11 @@ h2 {
   z-index: 51;
 }
 
-#cover
-{
+#userlogin:hover {
+  cursor: pointer;
+}
+
+#cover {
   top: 0;
   position: fixed;
   width: 100%;

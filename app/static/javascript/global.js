@@ -18,10 +18,10 @@ function currentTime()
   document.getElementById("currenttime").innerHTML = "The current time is: " + n;
 }
 
-//Handles login popup
+// Handles login popup
 $("document").ready(function()
 {
-  //Displays login popup and dims rest of page
+  // Displays login popup and dims rest of page
   $("#userlogin").click(function()
   {
     document.getElementById("cover").style.zIndex = "50"
@@ -29,7 +29,7 @@ $("document").ready(function()
     document.getElementById("ulogin").style.display = "block"
   })
 
-  //hides login popup
+  // Hides login popup
   $("#cover").click(function()
   {
     document.getElementById("cover").style.zIndex = "-1"
