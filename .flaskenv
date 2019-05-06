@@ -1,1 +1,2 @@
 FLASK_APP=polls.py
+FLASK_DEBUG=1
