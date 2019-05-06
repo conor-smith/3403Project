@@ -23,7 +23,7 @@
   <body>
     <!-- NAVBAR -->
     <nav class = "navbar navbar-expand-sm">
-      <a class = "navbar-brand" href="#">
+      <a class = "navbar-brand" href="{{ url_for('front') }}">
         <img src = "http://placehold.it/150x50?text=Logo" alt="Logo">
       </a> <!-- TODO add logo img -->
       
@@ -65,7 +65,7 @@
             <p class = "nav-link" id="userlogin">Log in</a>
           </li>
           <li class = "nav-item">
-            <a class = "nav-link" href="register.html">Register</a>
+            <a class = "nav-link" href="{{url_for('register')}}">Register</a>
           </li>
         </ul>
       {% endif %}

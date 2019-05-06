@@ -1,102 +1,25 @@
-<!-- TODO Convert website or parts of it into single page application -->
-<!DOCTYPE html>
-<html lang = "en">
-  <head>
-    <meta charset = "UTF-8">
-    <title>Front Page</title>
-    <!-- Bootstrap related -->
-    <meta name = "viewport" content="width=device-width, initial-scale=1">
-    <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- End of Bootstrap related-->
-    <link rel = "stylesheet"
-    type = "text/css"
-    href = "global.css"> <!-- css file -->
-    <script src = "global.js"></script> <!-- javascript file -->
-  </head>
+{% extends "base.html" %}
 
-  <body>
-    <!-- NAVBAR -->
-    <nav class = "navbar navbar-expand-sm">
-      <a class = "navbar-brand" href="#">
-        <img src = "http://placehold.it/150x50?text=Logo" alt="Logo">
-      </a> <!-- TODO add logo img --> 
-      
-      <!-- Left side navbar elements -->
-      <ul class = "navbar-nav mr-auto">
-        <li class = "nav-item">
-          <a class = "nav-link" href="#">Show Polls</a> <!-- TODO make this page -->
-        </li>
-        <li class = "nav-item">
-          <a class = "nav-link" href="#">Archives</a> <!-- TODO make this page -->
-        </li>
-        <li class = "nav-item dropdown">
-          <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">
-            Admin Tools
-          </a>
-          <div class = "dropdown-menu">
-            <a class = "dropdown-item" href="#">Create Polls</a> <!-- Admin only --> <!-- TODO make this page -->
-            <a class = "dropdown-item" href="#">User Details</a> <!-- Admin only --> <!-- TODO make this page -->
-            <a class = "dropdown-item" href="#">Modify Admins</a> <!-- Super admin only --> <!-- TODO make this page -->
-          </div>
-        </li>
-      </ul>
-
-      <!-- Right side navbar elements -->
-      <ul class = "navbar-nav ml-auto">
-        <li class = "nav-item">
-          <p class = "nav-link" id = "userlogin">Log in</a>
-        </li>
-        <li class = "nav-item">
-          <a class = "nav-link" href="#">Register</a>
-        </li>
-      </ul>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class = "container-fluid">
-      <h1>Enter your details</h1>
-      <form>
-        Username: <input type = "text"><br><br>
-        Email: <input type = "email"><br><br>
-        Password: <input type = "password"><br><br>
-        Repeat Password: <input type = "password"><br><br>
-        <div class = "dropdown">
-            <button type = "button" class = "btn btn-primary dropdown-toggle" 
-            data-toggle = "dropdown">
-              Preferred polls
-            </button>
-            <div class = "dropdown-menu">
-              <a class = "dropdown-item" href="#">Games</a>
-              <a class = "dropdown-item" href="#">Movies</a>
-              <a class = "dropdown-item" href="#">Music</a>
-            </div>
-          </div>
-      </form>
-    </main>
-
-    <!-- Login popup -->
-    <div class = "container" id = "ulogin">
-      <h2>Log in today!</h2>Changed computers? New browser? Our revolutionary online system
-      remembers who you are and allows you to sign in from anywhere in the world
-      <form>
-        <br>
-        <input type = "text" placeholder = "username"><br><br>
-        <input type = "password" placeholder = "password"><br><br>
-        Remember me <input type = "checkbox"><br><br>
-        <input type = "submit" value = "submit">
-      </form>
-    </div>
-
-    <!-- Exists purely to dim page and get rid of login popup -->
-    <div id = "cover"></div>
-
-    <!-- FOOTER -->
-    <footer>
-      <span id = "currenttime"></span><script>window.onload = currentTime();</script><br>
-      <span id = "lastmod"></span><script>window.onload = lastModified();</script>
-    </footer>
-  </body>
-</html>
+{% block content %}
+<!-- MAIN CONTENT -->
+<main class = "container-fluid">
+  <h1>Enter your details</h1>
+  <form>
+    Username: <input type = "text"><br><br>
+    Email: <input type = "email"><br><br>
+    Password: <input type = "password"><br><br>
+    Repeat Password: <input type = "password"><br><br>
+    <div class = "dropdown">
+        <button type = "button" class = "btn btn-primary dropdown-toggle" 
+        data-toggle = "dropdown">
+          Preferred polls
+        </button>
+        <div class = "dropdown-menu">
+          <a class = "dropdown-item" href="#">Games</a>
+          <a class = "dropdown-item" href="#">Movies</a>
+          <a class = "dropdown-item" href="#">Music</a>
+        </div>
+      </div>
+  </form>
+</main>
+{% endblock %}
