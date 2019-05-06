@@ -12,7 +12,7 @@ def front():
         "img" : "img/poster.png"
     }
     polls = [example_poll, example_poll, example_poll, example_poll, example_poll, example_poll]
-    return render_template("Front.html", title="Front page", user=example_user, polls=polls)
+    return render_template("front.html", title="Front Page", user=example_user, polls=polls)
 
 @app.route('/register')
 def register():
