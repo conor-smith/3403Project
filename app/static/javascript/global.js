@@ -6,17 +6,14 @@
 // Shows date the document was last modified
 function lastModified()
 {
-  var x = document.lastModified;
-  document.getElementById("lastmod").innerHTML = "This page was last modified: " + x;
+  var lm = new Date(document.lastModified);
+  document.getElementById("lastmod").innerHTML = 
+    "This page was last modified: " + lm.getDate() + 
+    "/" + (lm.getMonth() + 1) + "/" + lm.getFullYear() + 
+    " " + lm.getHours() + ":" + lm.getMinutes() +
+    ":" + lm.getSeconds();
 }
 
-// Shows current time
-function currentTime()
-{
-  var d = new Date();
-  var n = d.toLocaleTimeString();
-  document.getElementById("currenttime").innerHTML = "The current time is: " + n;
-}
 
 // Handles login popup
 $("document").ready(function()
