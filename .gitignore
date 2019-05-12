@@ -1,4 +1,7 @@
+# testing folder
 test/
+# virtual environment folder
+p3env/
 
 # Below is from https://github.com/github/gitignore
 # Byte-compiled / optimized / DLL files
