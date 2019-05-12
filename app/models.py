@@ -10,6 +10,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     admin = db.Column(db.String(1), default = "F")
     created_polls = db.relationship("Poll", backref = "author", lazy = "dynamic")
+    participated_polls = db.relationship("UserPoll", backref = "author", lazy = "dynamic")
 
     def __repr__(self):
         return "<User {}>".format(self.username)
@@ -28,7 +29,7 @@ class Media(db.Model):
     genre = db.Column(db.String(32), index = True)
 
     def __repr__(self):
-        return "<Movie {}>".format(self.title)
+        return "<Media {}>".format(self.title)
 
 class Poll(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -37,6 +38,20 @@ class Poll(db.Model):
     timestamp = db.Column(db.DateTime, default = datetime.utcnow)
     genre = db.Column(db.String(32), index = True, default = "No Genre")
     mtype = db.Column(db.String(16), index = True, default = "All")
+    choices = db.relationship("GlobalPolls", backref = "poll", lazy = "dynamic")
     
     def __repr__(self):
         return "<Poll {}>".format(self.name)
+
+GlobalPolls = db.Table("globalpolls",
+    db.Column("p_id", db.Integer, db.ForeignKey("poll.id")),
+    db.Column("m_id", db.Integer, db.ForeignKey("media.id")),
+    db.Column("score", db.Integer)
+)
+
+Userpolls = db.Table("userpolls",
+    db.Column("p_id", db.Integer, db.ForeignKey("poll.id")),
+    db.Column("u_id", db.Integer, db.ForeignKey("user.id")),
+    db.Column("m_id", db.Integer, db.ForeignKey("media.id")),
+    db.Column("score", db.Integer)
+)
