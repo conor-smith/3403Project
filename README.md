@@ -19,6 +19,13 @@ What things you need to install the software and how to install them
 Give examples
 ```
 
+- flask-wtf
+- Flask-SQLAlchemy
+- Flask-Migrate
+- python-dotenv
+- flask-login
+
+
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running

@@ -14,23 +14,7 @@ function lastModified()
     ":" + lm.getSeconds();
 }
 
-
-// Handles login popup
-$("document").ready(function()
+function renderLogin()
 {
-  // Displays login popup and dims rest of page
-  $("#userlogin").click(function()
-  {
-    document.getElementById("cover").style.zIndex = "50"
-    document.getElementById("cover").style.opacity = "0.5"
-    document.getElementById("ulogin").style.display = "block"
-  })
-
-  // Hides login popup
-  $("#cover").click(function()
-  {
-    document.getElementById("cover").style.zIndex = "-1"
-    document.getElementById("cover").style.opacity = "0"
-    document.getElementById("ulogin").style.display = "none"
-  })
-})
+  $('#renderLogin').load( "/login form");
+}

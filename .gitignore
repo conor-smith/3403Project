@@ -1,7 +1,10 @@
-# testing folder
+# Testing folder
 test/
-# virtual environment folder
+# Virtual environment folder
 p3env/
+# Database
+app.db
+/migrations
 
 # Below is from https://github.com/github/gitignore
 # Byte-compiled / optimized / DLL files
@@ -127,7 +130,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Database
-app.db
-/migrations

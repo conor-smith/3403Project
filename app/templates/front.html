@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if not user %}
+{% if current_user.is_authenticated %}
   <!-- JUMBOTRON -->
-  <div class = "jumbotron"> <!-- TODO show only if not logged in-->
+  <div class = "jumbotron">
     <h1 class = "display-4">Media Ranking Website</h1>
     <p class = "lead">This website aims to rank different forms of media based on user polling. </p> <!-- TODO improve description-->
     <a class = "btn btn-primary btn-lg" href="{{url_for('register')}}" role="button">Register</a>
@@ -12,6 +12,8 @@
 {% endif %}
 
 <!-- MAIN CONTENT -->
+<!-- Logged in user -->
+{% if current_user.is_authenticated %}
 <main class = "container-fluid"> <!-- TODO show random polls if not logged in,
   otherwise show personalised selection-->
   <h2>Personalised Polls</h2>
@@ -23,4 +25,24 @@
     {% endfor %}
   </div>
 </main>
+{% endif %}
+
+<!-- TODO show random polls if not logged in, otherwise show personalised selection-->
+{% if current_user.is_authenticated %} <!-- Logged in user -->
+<main class = "container-fluid"> 
+  <h2>Personalised Polls</h2>
+  <div class = "row">
+    {% for p in polls %}
+    <div class = "col-md-4 mb-3">
+      <a href = "#"> <img class = "img-fluid" src = "{{ url_for('static', filename=p.img) }}" alt = "Poll Image"> </a>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+{% else %} <!-- Not logged in -->
+<main class = "container-fluid"> 
+  <h2>Randomized Polls</h2>
+</main>
+{% endif %}
+
 {% endblock %}
