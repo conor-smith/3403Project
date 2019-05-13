@@ -2,13 +2,28 @@
 
 {% block content %}
 <div class = "container">
-  <h2>Log in today!</h2>Changed computers? New browser? Our revolutionary online system
-  remembers who you are and allows you to sign in from anywhere in the world
+  <h2>Log in today!</h2><p>Changed computers? New browser? Our revolutionary online system
+  remembers who you are and allows you to sign in from anywhere in the world</p>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
   <form action = "" method = "post" novalidate>
     {{ lform.hidden_tag() }}
     <br>
-    {{ lform.username.label }} {{ lform.username(size = 16) }}<br><br>
-    {{ lform.password.label }} {{ lform.password(size = 16) }}<br><br>
+    {{ lform.username.label }} {{ lform.username(size = 16) }}<br>
+    {% for error in lform.username.errors %}
+      <span style="color: red;">[{{ error }}]</span><br>
+    {% endfor %}<br>
+    {{ lform.password.label }} {{ lform.password(size = 16) }}<br>
+    {% for error in lform.password.errors %}
+      <span style="color: red;">[{{ error }}]</span><br>
+    {% endfor %}<br>
     {{ lform.remember_me.label }} {{ lform.remember_me() }}<br><br>
     {{ lform.submit }}
   </form>
