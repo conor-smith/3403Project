@@ -43,9 +43,9 @@
               </a>
 
               <div class = "dropdown-menu">
-                <a class = "dropdown-item" href="create_polls.html">Create Polls</a> <!-- Admin only -->
-                <a class = "dropdown-item" href="user_details.html">User Details</a> <!-- Admin only -->
-                <a class = "dropdown-item" href="modify_admins.html">Modify Admins</a> <!-- Super admin only -->
+                <a class = "dropdown-item" href="{{url_for('create_polls')}}">Create Polls</a> <!-- Admin only -->
+                <a class = "dropdown-item" href="{{url_for('user_details')}}">User Details</a> <!-- Admin only -->
+                <a class = "dropdown-item" href="{{url_for('modify_admins')}}">Modify Admins</a> <!-- Super admin only -->
               </div>
             </li>
           {% endif %}

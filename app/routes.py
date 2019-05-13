@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect
 from app import app
-from app.forms import LoginForm
+from app.forms import LoginForm, RegisterForm
 
 @app.route('/')
 @app.route('/front')
@@ -16,10 +16,6 @@ def front():
     return render_template("front.html", title="Front Page", current_user=example_user, polls=polls)
 # I removed user=example_user to test log in functionality, current_user is part of user auth, incomplete
 # should leave alone until I finish forms
-
-@app.route('/register')
-def register():
-    return render_template("register.html")
 
 @app.route('/about_us')
 def about_us():
@@ -41,8 +37,16 @@ def user_details():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Login success!')
+        flash("Login success!")
         return redirect('/')
-    return render_template('login.html', form=form)
+    return render_template("login.html", form=form)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        flash("Registration success!")
+        return redirect('/')
+    return render_template("register.html", form=form)
 
 # TODO route for register, various admin page forms and various user forms
