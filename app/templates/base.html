@@ -75,12 +75,13 @@
     <div class = "container" id = "ulogin">
       <h2>Log in today!</h2>Changed computers? New browser? Our revolutionary online system
       remembers who you are and allows you to sign in from anywhere in the world
-      <form>
+      <form action = "" method = "post" novalidate>
+        {{ form.hidden_tag() }}
         <br>
-        <input type = "text" placeholder="username"><br><br>
-        <input type = "password" placeholder="password"><br><br>
-        Remember me <input type = "checkbox"><br><br>
-        <input type = "submit" value = "submit">
+        {{ form.username.label }} {{ form.username(size = 16) }}<br><br>
+        {{ form.password.label }} {{ form.password(size = 16) }}<br><br>
+        {{ form.remember_me.label }} {{ form.remember_me() }}<br><br>
+        {{ form.submit }}
       </form>
     </div>
     <!-- "Dims" page and removes popup when clicked -->
