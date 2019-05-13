@@ -4,6 +4,7 @@
 <main class = "container-fluid">
   <h2>Enter your details</h2>
   <form action="/register" method="POST">
+    {{ form.hidden_tag() }}
     <p>
       {{ form.username }}
       {% for error in form.username.errors %}
