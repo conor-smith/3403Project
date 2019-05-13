@@ -62,7 +62,7 @@
       {% else %}
         <ul class = "navbar-nav ml-auto">
           <li class = "nav-item">
-            <p class = "nav-link" id="userlogin">Log in</a>
+            <a class = "nav-link" href = "{{url_for('login')}}">Log in</a>
           </li>
           <li class = "nav-item">
             <a class = "nav-link" href="{{url_for('register')}}">Register</a>
@@ -70,22 +70,6 @@
         </ul>
       {% endif %}
     </nav>
-
-    <!-- Login popup -->
-    <div class = "container" id = "ulogin">
-      <h2>Log in today!</h2>Changed computers? New browser? Our revolutionary online system
-      remembers who you are and allows you to sign in from anywhere in the world
-      <form action = "" method = "post" novalidate>
-        {{ form.hidden_tag() }}
-        <br>
-        {{ form.username.label }} {{ form.username(size = 16) }}<br><br>
-        {{ form.password.label }} {{ form.password(size = 16) }}<br><br>
-        {{ form.remember_me.label }} {{ form.remember_me() }}<br><br>
-        {{ form.submit }}
-      </form>
-    </div>
-    <!-- "Dims" page and removes popup when clicked -->
-    <div id = "cover"></div>
 
     {% block content %}{% endblock %}
 

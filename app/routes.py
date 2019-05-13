@@ -5,12 +5,16 @@ from app.forms import LoginForm
 @app.route('/')
 @app.route('/front')
 def front():
-    form = LoginForm()
     example_poll = {
         "img" : "img/poster.png"
     }
     polls = [example_poll, example_poll, example_poll, example_poll, example_poll, example_poll]
-    return render_template("front.html", title="Front Page", polls=polls, form=form)
+    return render_template("front.html", title="Front Page", polls=polls)
+
+@app.route('/login')
+def login():
+    lform = LoginForm()
+    return render_template("login.html", title="Log in", lform=lform)
 
 @app.route('/register')
 def register():

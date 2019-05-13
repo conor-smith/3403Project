@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class = "container">
+  <h2>Log in today!</h2>Changed computers? New browser? Our revolutionary online system
+  remembers who you are and allows you to sign in from anywhere in the world
+  <form action = "" method = "post" novalidate>
+    {{ lform.hidden_tag() }}
+    <br>
+    {{ lform.username.label }} {{ lform.username(size = 16) }}<br><br>
+    {{ lform.password.label }} {{ lform.password(size = 16) }}<br><br>
+    {{ lform.remember_me.label }} {{ lform.remember_me() }}<br><br>
+    {{ lform.submit }}
+  </form>
+</div>
+{% endblock %}
