@@ -4,22 +4,30 @@
 <!-- MAIN CONTENT -->
 <main class = "container-fluid">
   <h1>Enter your details</h1>
-  <form>
-    Username: <input type = "text"><br><br>
-    Email: <input type = "email"><br><br>
-    Password: <input type = "password"><br><br>
-    Repeat Password: <input type = "password"><br><br>
-    <div class = "dropdown">
-        <button type = "button" class = "btn btn-primary dropdown-toggle" 
-        data-toggle = "dropdown">
-          Preferred polls
-        </button>
-        <div class = "dropdown-menu">
-          <a class = "dropdown-item" href="#">Games</a>
-          <a class = "dropdown-item" href="#">Movies</a>
-          <a class = "dropdown-item" href="#">Music</a>
-        </div>
-      </div>
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.username.label }}<br>
+      {{ form.username(size=32) }}<br>
+      {% for error in form.username.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.password.label }}<br>
+      {{ form.password(size=32) }}<br>
+      {% for error in form.password.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.password2.label }}<br>
+      {{ form.password2(size=32) }}<br>
+      {% for error in form.password2.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
   </form>
 </main>
 {% endblock %}
