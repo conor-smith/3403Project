@@ -1,15 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- MAIN CONTENT -->
 <main class = "container-fluid">
-  <h1>Poll Creation</h1>
-  <form>
-    <input type = "text" placeholder="Name">
-    <input type = "text" placeholder="Media type">
-    <input type = "text" placeholder="Genre">
-    <!-- choices here-->
-    <input type = "submit" value = "submit">
+  <h2>Poll Creation</h2>
+  <form action="create_polls" method="POST">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.name }}
+      {% for error in form.name.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <h5>{{ form.mtype.label }}</h5>
+    <p>
+      {{ form.mtype }}
+      {% for error in form.mtype.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <h5>{{ form.genre.label }}</h5>
+    <p>
+      {{ form.genre }}
+      {% for error in form.genre.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    PLACEHOLDER FOR CHOICES <!-- choices here-->
+    <p>{{ form.submit() }}</p>
   </form>
 </main>
 {% endblock %}

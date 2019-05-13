@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect
 from app import app
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, CreatePollForm
 
 @app.route('/')
 @app.route('/front')
@@ -21,9 +21,13 @@ def front():
 def about_us():
     return render_template("about_us.html")
 
-@app.route('/create_polls')
+@app.route('/create_polls', methods=['GET', 'POST'])
 def create_polls():
-    return render_template("create_polls.html")
+    form = CreatePollForm()
+    if form.validate_on_submit():
+        flash("Poll creation success!")
+        return redirect('/create_polls')
+    return render_template("create_polls.html", form=form)
 
 @app.route('/modify_admins')
 def modify_admins():

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 # https://github.com/wtforms/wtforms/blob/master/src/wtforms/fields/html5.py , it's undocumented on purpose apparently :shrug:
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
@@ -27,5 +27,22 @@ class RegisterForm(FlaskForm):
     prefMusic = BooleanField("Prefers music")
     submit = SubmitField("Register")
 
+# TODO complete other variables automatically e.g. creator, timestamp, etc.
+# TODO validation checking for fields e.g. make sure name makes sense, or genre exists, etc.
+class CreatePollForm(FlaskForm):
+    name = StringField("name", validators=[InputRequired()], 
+        render_kw={"placeholder": "Name"})
+    mtype = SelectField("Media Type", 
+        choices=[("games", "Games"), ("movies", "Movies"), ("music", "Music")], 
+        validators=[InputRequired()]) 
+        # possible to add games, movie, music as only possible options in database instead of string type?
+    genre = SelectField("Genre", choices=[("horror", "Horror"), ("comedy", "Comedy"), ("drama", "Drama")], 
+        validators=[InputRequired()]) 
+        # PLACEHOLDER, probably need to make a set list of genres in database ahead of time,
+        # and maybe superadmin ability to add new genres
+        # also complicated with different media genres (e.g. RPG exists in games but not in movies and music)
+    # choices = 
+        # ???
+    submit = SubmitField("Create Poll")
 
 # TODO route for register, various admin page forms and various user forms
