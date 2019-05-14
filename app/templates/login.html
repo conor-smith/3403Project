@@ -1,26 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<<<<<<< HEAD
-<h1>Sign In</h1>
-<form action="/login" method="POST">
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.username }}
-    {% for error in form.username.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
-    {{ form.password }}
-    {% for error in form.password.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-  <p>{{ form.submit() }}</p>
-</form>
-=======
 <div class = "container">
   <h2>Log in today!</h2><p>Changed computers? New browser? Our revolutionary online system
   remembers who you are and allows you to sign in from anywhere in the world</p>
@@ -33,7 +13,7 @@
       </ul>
     {% endif %}
   {% endwith %}
-  <form action = "" method = "post" novalidate>
+  <form action = "/login" method = "POST">
     {{ lform.hidden_tag() }}
     <br>
     {{ lform.username.label }} {{ lform.username(size = 16) }}<br>
@@ -48,5 +28,4 @@
     {{ lform.submit }}
   </form>
 </div>
->>>>>>> association
 {% endblock %}

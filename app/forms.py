@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-<<<<<<< HEAD
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 # https://github.com/wtforms/wtforms/blob/master/src/wtforms/fields/html5.py , it's undocumented on purpose apparently :shrug:
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
+from app.models import User
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
@@ -14,19 +14,21 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Sign in")
 
 # TODO email verification (optional)
-class RegisterForm(FlaskForm):
+class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
         render_kw={"placeholder": "Username"})
     email = EmailField("Email", validators=[InputRequired(), Email()], 
         render_kw={"placeholder": "Email Address"})
     password = PasswordField("Password", validators=[InputRequired(), 
         EqualTo("confirm", message="Passwords must match")], render_kw={"placeholder": "Password"})
-    confirm = PasswordField("Repeat Password", 
+    password2 = PasswordField("Repeat Password", 
         render_kw={"placeholder": "Confirm Password"})
-    prefGame = BooleanField("Prefers games")
-    prefMovie = BooleanField("Prefers movies")
-    prefMusic = BooleanField("Prefers music")
     submit = SubmitField("Register")
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
 
 # TODO complete other variables automatically e.g. creator, timestamp, etc.
 # TODO validation checking for fields e.g. make sure name makes sense, or genre exists, etc.
@@ -47,25 +49,3 @@ class CreatePollForm(FlaskForm):
     submit = SubmitField("Create Poll")
 
 # TODO route for register, various admin page forms and various user forms
-=======
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, EqualTo, ValidationError
-from app.models import User
-
-class LoginForm(FlaskForm):
-    username = StringField("Username", validators = [DataRequired()])
-    password = PasswordField("Password", validators = [DataRequired()])
-    remember_me = BooleanField("Remember Me")
-    submit = SubmitField("Sign in")
-
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
-
-    def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        if user is not None:
-            raise ValidationError('Please use a different username.')
->>>>>>> association

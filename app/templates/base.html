@@ -41,13 +41,12 @@
               Admin Tools
             </a>
 
-              <div class = "dropdown-menu">
-                <a class = "dropdown-item" href="{{url_for('create_polls')}}">Create Polls</a> <!-- Admin only -->
-                <a class = "dropdown-item" href="{{url_for('user_details')}}">User Details</a> <!-- Admin only -->
-                <a class = "dropdown-item" href="{{url_for('modify_admins')}}">Modify Admins</a> <!-- Super admin only -->
-              </div>
-            </li>
-          {% endif %}
+            <div class = "dropdown-menu">
+              <a class = "dropdown-item" href="{{url_for('create_polls')}}">Create Polls</a> <!-- Admin only -->
+              <a class = "dropdown-item" href="{{url_for('user_details')}}">User Details</a> <!-- Admin only -->
+              <a class = "dropdown-item" href="{{url_for('modify_admins')}}">Modify Admins</a> <!-- Super admin only -->
+            </div>
+          </li>
         {% endif %}
       </ul>
 
@@ -73,7 +72,7 @@
       {% endif %}
     </nav>
 
-    {% if not user %}
+    {% if user.is_anonymous %}
     <!-- Log In Modal -->
     <div id="login" class="modal fade" role="dialog">
       <div class="modal-dialog">
