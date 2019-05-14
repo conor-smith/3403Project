@@ -24,6 +24,7 @@ Give examples
 - Flask-Migrate
 - python-dotenv
 - flask-login
+- flask-admin
 
 
 ### Installing

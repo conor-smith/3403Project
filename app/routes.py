@@ -1,8 +1,9 @@
-from flask import render_template, redirect, url_for, flash
-from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from flask import render_template, redirect, url_for, flash, request
+from app import app, db, admin
+from app.forms import LoginForm, RegistrationForm, CreatePollForm
 from flask_login import current_user, login_user, logout_user
-from app.models import User
+from app.models import User, Poll, Media
+from flask_admin.contrib.sqla import ModelView
 
 @app.route('/')
 @app.route('/front')
@@ -36,7 +37,11 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        flash('You are already logged in')
+        if request.referrer is None:
+            return redirect(url_for("front"))
+        else:
+            return redirect(request.referrer)
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data)
@@ -65,6 +70,19 @@ def modify_admins():
 @app.route('/user_details')
 def user_details():
     return render_template("user_details.html")
+
+class AdminView(ModelView):
+    def is_accessible(self):
+        return current_user.admin
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        flash("Login required")
+        return redirect(url_for('login', next=request.url))
+
+admin.add_view(AdminView(User, db.session))
+admin.add_view(AdminView(Poll, db.session))
+admin.add_view(AdminView(Media, db.session))
 
 # SUPER ADMIN/ADMIN #if id=1
 # @app.route('/new_admin', methods=[POST]) # new account or upgrade user

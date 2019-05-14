@@ -32,6 +32,7 @@ class RegistrationForm(FlaskForm):
 # TODO complete other variables automatically e.g. creator, timestamp, etc.
 # TODO validation checking for fields e.g. make sure name makes sense, or genre exists, etc.
 class CreatePollForm(FlaskForm):
+    #creator = 
     name = StringField("name", validators=[InputRequired()], 
         render_kw={"placeholder": "Name"})
     mtype = SelectField("Media Type", 
