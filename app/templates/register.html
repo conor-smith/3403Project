@@ -11,18 +11,15 @@
       <span style="color: red;">[{{ error }}]</span>
       {% endfor %}
     </p>
+    <!--TODO: email (optional)-->
     <p>
-      {{ form.email }}
-      {% for error in form.email.errors %}
-      {{ form.password.label }}<br>
-      {{ form.password(size=32) }}<br>
+      {{ form.password }}<br>
       {% for error in form.password.errors %}
       <span style="color: red;">[{{ error }}]</span>
       {% endfor %}
     </p>
     <p>
-      {{ form.password2.label }}<br>
-      {{ form.password2(size=32) }}<br>
+      {{ form.password2 }}<br>
       {% for error in form.password2.errors %}
       <span style="color: red;">[{{ error }}]</span>
       {% endfor %}

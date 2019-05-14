@@ -17,11 +17,10 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
         render_kw={"placeholder": "Username"})
-    email = EmailField("Email", validators=[InputRequired(), Email()], 
-        render_kw={"placeholder": "Email Address"})
-    password = PasswordField("Password", validators=[InputRequired(), 
-        EqualTo("confirm", message="Passwords must match")], render_kw={"placeholder": "Password"})
-    password2 = PasswordField("Repeat Password", 
+    #email = EmailField("Email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email Address"})
+    password = PasswordField("Password", validators=[InputRequired()], 
+        render_kw={"placeholder": "Password"})
+    password2 = PasswordField("Repeat Password", validators=[InputRequired(), EqualTo('password')], 
         render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField("Register")
 

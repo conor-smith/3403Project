@@ -35,7 +35,7 @@
         <li class = "nav-item">
           <a class = "nav-link" href="#">Archives</a> <!-- TODO make this page -->
         </li>
-        {%if user and not user.is_anonymous and user.isAdmin %}
+        {% if user and not user.is_anonymous and user.isAdmin %}
           <li class = "nav-item dropdown">
             <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">
               Admin Tools
@@ -72,7 +72,7 @@
       {% endif %}
     </nav>
 
-    {% if user.is_anonymous %}
+    {% if current_user.is_anonymous %}
     <!-- Log In Modal -->
     <div id="login" class="modal fade" role="dialog">
       <div class="modal-dialog">
