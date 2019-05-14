@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if user.is_anonymous %}
+{% if current_user.is_anonymous %}
   <!-- JUMBOTRON -->
   <div class = "jumbotron">
     <h1 class = "display-4">Media Ranking Website</h1>

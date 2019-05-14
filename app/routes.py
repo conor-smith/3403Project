@@ -8,16 +8,16 @@ from flask_admin.contrib.sqla import ModelView
 @app.route('/')
 @app.route('/front')
 def front():
-    user = current_user
     example_poll = {
         "img" : "img/poster.png"
     }
     polls = [example_poll, example_poll, example_poll, example_poll, example_poll, example_poll]
-    return render_template("front.html", user=user, title="Front Page", polls=polls)
+    return render_template("front.html", title="Front Page", polls=polls)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        flash("You are already logged in")
         return redirect(url_for("front"))
     lform = LoginForm()
     if lform.validate_on_submit():
@@ -32,12 +32,13 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash("You have logged out successfully")
     return redirect(url_for("front"))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        flash('You are already logged in')
+        flash("You are already logged in")
         if request.referrer is None:
             return redirect(url_for("front"))
         else:
@@ -48,12 +49,13 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        flash("Thanks for registering, please log in")
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/about_us')
 def about_us():
-    return render_template("about_us.html")
+    return render_template("about_us.html", title="About Us")
 
 @app.route('/create_polls', methods=['GET', 'POST'])
 def create_polls():
@@ -61,7 +63,7 @@ def create_polls():
     if form.validate_on_submit():
         flash("Poll creation success!")
         return redirect('/create_polls')
-    return render_template("create_polls.html", form=form)
+    return render_template("create_polls.html", form=form, title="Create Poll")
 
 @app.route('/modify_admins')
 def modify_admins():
