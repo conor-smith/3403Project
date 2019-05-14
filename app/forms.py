@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+<<<<<<< HEAD
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 # https://github.com/wtforms/wtforms/blob/master/src/wtforms/fields/html5.py , it's undocumented on purpose apparently :shrug:
 from wtforms.fields.html5 import EmailField
@@ -46,3 +47,25 @@ class CreatePollForm(FlaskForm):
     submit = SubmitField("Create Poll")
 
 # TODO route for register, various admin page forms and various user forms
+=======
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired, EqualTo, ValidationError
+from app.models import User
+
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators = [DataRequired()])
+    password = PasswordField("Password", validators = [DataRequired()])
+    remember_me = BooleanField("Remember Me")
+    submit = SubmitField("Sign in")
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
+>>>>>>> association
