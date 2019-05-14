@@ -69,10 +69,7 @@ def create_polls():
 def modify_admins():
     return render_template("modify_admins.html")
 
-@app.route('/user_details')
-def user_details():
-    return render_template("user_details.html")
-
+# Database Dashboard Views
 class AdminView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.admin

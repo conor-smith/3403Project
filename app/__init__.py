@@ -10,6 +10,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
-admin = Admin(app)
+app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
+admin = Admin(app, template_mode='bootstrap3')
 
 from app import routes, models

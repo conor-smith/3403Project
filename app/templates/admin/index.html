@@ -1,5 +1,20 @@
 {% extends 'admin/master.html' %}
 
+{% block brand %}
+<a class="navbar-brand" href="{{ url_for('front') }}">
+  <img src = "http://placehold.it/150x50?text=Logo" alt="Logo">
+</a> <!-- TODO add logo img -->
+{% endblock %}
+
+{% block menu_links %}
+<ul class="nav navbar-nav navbar-right">
+  <li>
+    <a class = nav-link href = "{{ url_for('logout') }}">Log out</a>
+  </li>
+</ul>
+{% endblock %}
+
 {% block body %}
-  <h2>Welcome to the Admin Dashboard</h2>
+  <h2>Welcome to the Database Dashboard</h2>
+  <p> Here you can edit or add user, poll and media data.</p>
 {% endblock %}
