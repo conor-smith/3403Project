@@ -75,12 +75,18 @@ def user_details():
 
 class AdminView(ModelView):
     def is_accessible(self):
-        return current_user.admin
+        return current_user.is_authenticated and current_user.admin
 
     def inaccessible_callback(self, name, **kwargs):
-        # redirect to login page if user doesn't have access
-        flash("Login required")
-        return redirect(url_for('login', next=request.url))
+        if current_user.is_authenticated:
+            flash("Admin access required ")
+            if request.referrer is None:
+                return redirect(url_for("front"))
+            else:
+                return redirect(request.referrer)
+        else:
+            flash("Login required")
+            return redirect(url_for('login', next=request.url))
 
 admin.add_view(AdminView(User, db.session))
 admin.add_view(AdminView(Poll, db.session))

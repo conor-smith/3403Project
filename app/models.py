@@ -59,7 +59,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(64), index = True, unique = True)
     password_hash = db.Column(db.String(128))
-    admin = db.Column(db.String(1), default = "F")
+    admin = db.Column(db.Boolean(1), default = False)
     created_polls = db.relationship("Poll", backref = "author", lazy = "dynamic")
     participated = db.relationship(
         "Poll", secondary = userpolls,
