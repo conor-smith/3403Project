@@ -8,7 +8,7 @@ userpolls = db.Table("userpolls",
     db.Column("p_id", db.Integer, db.ForeignKey("poll.id")),
     db.Column("u_id", db.Integer, db.ForeignKey("user.id")),
     db.Column("m_id", db.Integer, db.ForeignKey("media.id")),
-    db.Column("score", db.Integer)
+    db.Column("score", db.Integer, default = 0)
 )
 
 globalpolls = db.Table("globalpolls",
@@ -20,7 +20,7 @@ globalpolls = db.Table("globalpolls",
 class Media(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(64), index = True)
-    poster = db.Column(db.String(100), unique = True)
+    poster = db.Column(db.String(100), default = "img/poster.png")
     mtype = db.Column(db.String(16), index = True)
 
     def __repr__(self):
@@ -31,6 +31,7 @@ class Poll(db.Model):
     name = db.Column(db.String(128))
     creator = db.Column(db.Integer, db.ForeignKey("user.id"))
     timestamp = db.Column(db.DateTime, default = datetime.utcnow)
+    active = db.Column(db.String(1), default = "T")
     mtype = db.Column(db.String(16), index = True, default = "All")
     choices = db.relationship(
         "Media", secondary = globalpolls,
@@ -41,6 +42,18 @@ class Poll(db.Model):
     
     def __repr__(self):
         return "<Poll {}>".format(self.name)
+    
+    def contains(self, media):
+        return self.choices.filter(globalpolls.c.m_id == media.id).count() > 0
+
+    def add_media(self, media):
+        if not self.contains(media):
+            self.choices.append(media)
+    
+    def remove_media(self, media):
+        if self.contains(media):
+            self.choices.remove(media)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
