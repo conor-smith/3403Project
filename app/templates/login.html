@@ -6,9 +6,9 @@
   {{ form.hidden_tag() }}
   <p>
     {{ form.username }}
-      {% for error in form.username.errors %}
-      <span style="color: red;">[{{ error }}]</span>
-      {% endfor %}
+    {% for error in form.username.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
   </p>
   <p>
     {{ form.password }}

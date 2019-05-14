@@ -53,4 +53,21 @@ def register():
         return redirect('/')
     return render_template("register.html", form=form)
 
+# SUPER ADMIN/ADMIN #if id=1
+# @app.route('/new_admin', methods=[POST]) # new account or upgrade user
+
+# @app.route('/remove_user', methods=['DELETE']) # delete account entirely, do we need this?
+
+# USER_DETAILS ROUTES
+# @app.route('/change_user_password', methods=[PATCH]) # edit password of user
+
+# user details
+# @app.route('/change', methods=['DELETE']) # delete account entirely, do we need this?
+
+# SHOW_POLLS ROUTES
+
+# INDIVIDUAL POLL PAGES ROUTES
+
+# POLL ARCHIVE ROUTES
+
 # TODO route for register, various admin page forms and various user forms
