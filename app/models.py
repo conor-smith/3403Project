@@ -101,8 +101,7 @@ class Poll(db.Model):
                 tally += up.score
             tot.append({"Media" : gp.parent_med, "GlobalScore" : tally})
         return tot
-
-
+        
 #Stores all users
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)        
