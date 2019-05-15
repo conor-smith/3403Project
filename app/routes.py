@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, logout_user
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
 from wtforms import PasswordField
+from wtforms.validators import InputRequired, ValidationError
 
 @app.route('/')
 @app.route('/front')
@@ -87,12 +88,20 @@ class AdminView(ModelView):
 # TODO change what you can see based on admin vs superadmin
 # TODO (optional) show current unhashed password
 class UserView(ModelView):
+    form_create_rules = ["username", "change_pword", "admin"]
     form_excluded_columns = ("password_hash")
     form_extra_fields = {
         "change_pword": PasswordField("Set New Password")
     }
-
+    
+    # Validation and setting new password if there is input
     def on_model_change(self, form, model, is_created):
+        if is_created:
+            if not form.username.data:
+                raise ValidationError('Username Required')
+            if not form.change_pword.data:
+                raise ValidationError('Password Required')
+        
         if form.change_pword.data:
             model.set_password(form.change_pword.data)
 
