@@ -40,11 +40,12 @@
             <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">
               Admin Tools
             </a>
-
+            <!-- TODO change based on superadmin or not -->
             <div class = "dropdown-menu">
-              <a class = "dropdown-item" href="{{url_for('create_polls')}}">Create Polls</a> <!-- Admin only -->
-              <a class = "dropdown-item" href="{{url_for('admin.index')}}">Database</a> <!-- Admin only -->
-              <a class = "dropdown-item" href="{{url_for('modify_admins')}}">Modify Admins</a> <!-- Super admin only -->
+              <a class = "dropdown-item" href="{{url_for('admin.index')}}">Admin Home</a>
+              <a class = "dropdown-item" href="{{url_for('user.index_view')}}">Modify Users</a>
+              <a class = "dropdown-item" href="{{url_for('poll.index_view')}}">Modify Polls</a>
+              <a class = "dropdown-item" href="{{url_for('media.index_view')}}">Modify Media</a>
             </div>
           </li>
         {% endif %}

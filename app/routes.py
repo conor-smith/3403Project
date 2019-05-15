@@ -4,6 +4,7 @@ from app.forms import LoginForm, RegistrationForm, CreatePollForm
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
+from wtforms import PasswordField
 
 @app.route('/')
 @app.route('/front')
@@ -30,7 +31,7 @@ def login():
     return render_template("login.html", title="Log in", lform=lform)
 
 @app.route('/logout')
-def logout():
+def logout(): 
     logout_user()
     flash("You have logged out successfully")
     return redirect(url_for("front"))
@@ -50,58 +51,68 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash("Thanks for registering, please log in")
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+        return redirect(url_for("login"))
+    return render_template("register.html", title="Register", form=form)
 
 @app.route('/about_us')
 def about_us():
     return render_template("about_us.html", title="About Us")
-
-@app.route('/create_polls', methods=['GET', 'POST'])
-def create_polls():
-    form = CreatePollForm()
-    if form.validate_on_submit():
-        flash("Poll creation success!")
-        return redirect('/create_polls')
-    return render_template("create_polls.html", form=form, title="Create Poll")
-
-@app.route('/modify_admins')
-def modify_admins():
-    return render_template("modify_admins.html")
-
-# Database Dashboard Views
-class AdminView(ModelView):
-    def is_accessible(self):
-        return current_user.is_authenticated and current_user.admin
-
-    def inaccessible_callback(self, name, **kwargs):
-        if current_user.is_authenticated:
-            flash("Admin access required ")
-            if request.referrer is None:
-                return redirect(url_for("front"))
-            else:
-                return redirect(request.referrer)
-        else:
-            flash("Login required")
-            return redirect(url_for('login', next=request.url))
-
-admin.add_view(AdminView(User, db.session))
-admin.add_view(AdminView(Poll, db.session))
-admin.add_view(AdminView(Media, db.session))
-
-# SUPER ADMIN/ADMIN #if id=1
-# @app.route('/new_admin', methods=[POST]) # new account or upgrade user
-
-# @app.route('/remove_user', methods=['DELETE']) # delete account entirely, do we need this?
-
-# USER_DETAILS ROUTES
-# @app.route('/change_user_password', methods=[PATCH]) # edit password of user
-
-# user details
-# @app.route('/change', methods=['DELETE']) # delete account entirely, do we need this?
 
 # SHOW_POLLS ROUTES
 
 # INDIVIDUAL POLL PAGES ROUTES
 
 # POLL ARCHIVE ROUTES
+
+# MANAGE ACCOUNT ROUTES (where user can change their own details like email or password)
+# edit password, edit username (optional), edit email (optional), 
+
+# DATABASE DASHBOARD ROUTES
+# This section covers adding and removing both normal and admin accounts, 
+class AdminView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.admin
+
+    def inaccessible_callback(self, name, **kwargs):
+        if current_user.is_authenticated:
+            flash("Admin access required")
+            if request.referrer is None:
+                return redirect(url_for("front"))
+            else:
+                return redirect(request.referrer)
+        else:
+            flash("Login required")
+            return redirect(url_for("login", next=request.url))
+
+# TODO change what you can see based on admin vs superadmin
+# TODO (optional) show current unhashed password
+class UserView(ModelView):
+    form_excluded_columns = ("password_hash")
+    form_extra_fields = {
+        "change_pword": PasswordField("Set New Password")
+    }
+
+    def on_model_change(self, form, model, is_created):
+        if form.change_pword.data:
+            model.set_password(form.change_pword.data)
+
+    # Check if logged in and is admin when accessing admin pages
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.admin
+
+    # What to do if not logged in/not admin
+    def inaccessible_callback(self, name, **kwargs):
+        if current_user.is_authenticated:
+            flash("Admin access required")
+            if request.referrer is None:
+                return redirect(url_for("front"))
+            else:
+                return redirect(request.referrer)
+        else:
+            flash("Login required")
+            return redirect(url_for("login", next=request.url))
+
+# Adds a page for each database model
+admin.add_view(UserView(User, db.session))
+admin.add_view(AdminView(Poll, db.session))
+admin.add_view(AdminView(Media, db.session))
