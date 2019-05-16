@@ -104,19 +104,6 @@ class Poll(db.Model):
         
 #Stores all users
 class User(UserMixin, db.Model):
-<<<<<<< HEAD
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(64), index = True, unique = True)
-    password_hash = db.Column(db.String(128))
-    admin = db.Column(db.Boolean(1), default = False)
-    created_polls = db.relationship("Poll", backref = "author", lazy = "dynamic")
-    participated = db.relationship(
-        "Poll", secondary = userpolls,
-        primaryjoin = (userpolls.c.u_id == id),
-        secondaryjoin = (userpolls.c.p_id == Poll.id),
-        backref = db.backref("participants", lazy = "dynamic"), lazy = "dynamic"
-    )
-=======
     id = db.Column(db.Integer, primary_key = True)        
     username = db.Column(db.String(64), index = True, unique = True)#Username
     password_hash = db.Column(db.String(128))                       #Contains encrypted password
@@ -124,7 +111,6 @@ class User(UserMixin, db.Model):
     created_polls = db.relationship("Poll", backref = "author",     #returns all polls created by this user
                                     lazy = "dynamic")
     votes = db.relationship("UserPolls", backref = "p_user")        #links to all votes of a user
->>>>>>> association
 
     #How to print this object
     def __repr__(self):
