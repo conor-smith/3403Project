@@ -40,7 +40,6 @@ A step by step series of examples that tell you how to get a development env run
   - from app.models import User
   - u = User(username='usern', admin = 1)
   - u.set_password('pword')
-  - db.session.commit()
   - db.session.add(u)
   - db.session.commit()
 - replace "usern" with your desired username and "pword" with your desired password

@@ -7,9 +7,14 @@ from flask_admin import Admin
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-login = LoginManager(app)
+# Login manager
+login = LoginManager()
+login.init_app(app)
+# Admin interface
 app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
 admin = Admin(app, template_mode='bootstrap3', base_template='admin/base.html')
 

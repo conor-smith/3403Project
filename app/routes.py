@@ -85,13 +85,14 @@ class AdminView(ModelView):
             flash("Login required")
             return redirect(url_for("login", next=request.url))
 
-# TODO change what you can see based on admin vs superadmin
 # TODO what fields are mandatory in poll
 # TODO what fields are mandatory in media
 # TODO (optional) show current unhashed password in users page
 class UserView(ModelView):
     form_create_rules = ["username", "change_pword", "admin"]
-    form_excluded_columns = ("password_hash")
+    form_edit_rules = ["username", "change_pword", "admin",
+        "votes", "created_polls"]
+    form_excluded_columns = ["password_hash"]
     form_extra_fields = {
         "change_pword": PasswordField("Set New Password")
     }
