@@ -4,15 +4,6 @@
 <div class = "container">
   <h2>Log in today!</h2><p>Changed computers? New browser? Our revolutionary online system
   remembers who you are and allows you to sign in from anywhere in the world</p>
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
   <form action = "/login" method = "POST">
     {{ lform.hidden_tag() }}
     <br>

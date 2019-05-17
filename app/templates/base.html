@@ -29,12 +29,11 @@
       
       <!-- Left side navbar elements -->
       <ul class = "navbar-nav mr-auto">
+        {% if not current_user.is_anonymous %}
         <li class = "nav-item">
-          <a class = "nav-link" href="#">Show Polls</a> <!-- TODO make this page -->
+          <a class = "nav-link" href="{{ url_for('archives') }}">Archives</a>
         </li>
-        <li class = "nav-item">
-          <a class = "nav-link" href="#">Archives</a> <!-- TODO make this page -->
-        </li>
+        {% endif %}
         {% if current_user and not current_user.is_anonymous and current_user.admin %}
           <li class = "nav-item dropdown">
             <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">
@@ -44,8 +43,8 @@
             <div class = "dropdown-menu">
               <a class = "dropdown-item" href="{{url_for('admin.index')}}">Admin Home</a>
               <a class = "dropdown-item" href="{{url_for('user.index_view')}}">Modify Users</a>
-              <a class = "dropdown-item" href="{{url_for('poll.index_view')}}">Modify Polls</a>
               <a class = "dropdown-item" href="{{url_for('media.index_view')}}">Modify Media</a>
+              <a class = "dropdown-item" href="{{url_for('poll.index_view')}}">Modify Polls</a>
             </div>
           </li>
         {% endif %}
@@ -55,7 +54,8 @@
       {% if current_user and not current_user.is_anonymous %}
         <ul class = "navbar-nav ml-auto">
           <li class = "nav-item">
-            <p class = "nav-link" id="userlogin">Welcome {{ current_user.username }}</a>
+            <p class = "nav-link" id="userlogin">Welcome {{ current_user.username }}</p>
+            <a class = "nav-link" id="userlogin" href = "{{ url_for('manage_account') }}">Account Settings</a>
           </li>
           <li class = "nav-item">
             <a class = nav-link href = "{{ url_for('logout') }}">Log out</a>

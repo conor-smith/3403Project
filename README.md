@@ -25,6 +25,7 @@ Give examples
 - python-dotenv
 - flask-login
 - flask-admin
+- Pillow
 
 
 ### Installing

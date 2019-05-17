@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class = "container-fluid">
+  <h2>Manage Account</h2>
+  <!-- CHANGE PASSWORD -->
+  <h3>Change Password</h3>
+  <form action="/change_password" method="POST">
+    {{ pwform.hidden_tag() }}
+    <p>
+      {{ pwform.current }}
+      {% for error in pwform.current.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <!--TODO: email (optional)-->
+    <p>
+      {{ pwform.new }}<br>
+      {% for error in pwform.new.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ pwform.confirm }}<br>
+      {% for error in pwform.confirm.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{ pwform.submit() }}</p>
+  </form>
+
+  <!-- CHANGE USERNAME -->
+  <h3>Change Username</h3>
+  <form action="/change_username" method="POST">
+    {{ unform.hidden_tag() }}
+    <p>
+      {{ unform.current }}
+      {% for error in unform.current.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <!--TODO: email (optional)-->
+    <p>
+      {{ unform.new }}<br>
+      {% for error in unform.new.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{ unform.submit() }}</p>
+  </form>
+</main>
+{% endblock %}
