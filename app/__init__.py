@@ -19,4 +19,4 @@ login.init_app(app)
 app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
 admin = Admin(app, template_mode='bootstrap3', base_template='admin/base.html')
 
-from app import routes, models
+from app import routes, models, errors
