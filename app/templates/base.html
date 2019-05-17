@@ -30,10 +30,7 @@
       <!-- Left side navbar elements -->
       <ul class = "navbar-nav mr-auto">
         <li class = "nav-item">
-          <a class = "nav-link" href="#">Show Polls</a> <!-- TODO make this page -->
-        </li>
-        <li class = "nav-item">
-          <a class = "nav-link" href="#">Archives</a> <!-- TODO make this page -->
+          <a class = "nav-link" href="{{ url_for('archives') }}">Archives</a> <!-- TODO make this page -->
         </li>
         {% if current_user and not current_user.is_anonymous and current_user.admin %}
           <li class = "nav-item dropdown">

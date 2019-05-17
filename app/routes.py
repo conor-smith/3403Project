@@ -13,6 +13,12 @@ def front():
     polls = Poll.query.filter(Poll.active).all()
     return render_template("front.html", title="Front Page", polls=polls)
 
+@app.route('/archives')
+def archives():
+    active = Poll.query.filter(Poll.active).all()
+    inactive = Poll.query.filter(not Poll.active).all()
+    return render_template("archives.html", active=active, inactive=inactive)
+
 @app.route('/poll/<id>', methods=['GET', 'POST'])
 def poll_page(id):
     if current_user.is_anonymous:
@@ -24,11 +30,9 @@ def poll_page(id):
         for i in range(len(poll.choices)):
             current_user.vote_on_media(poll, poll.choices[i], int(getattr(vform, "vote{}".format(i+1)).data))
         db.session.commit()
-        return redirect(url_for("front"))
+        return redirect(url_for("poll_results", id=id))
     length = len(poll.choices)
     fields = ["vote{}".format(i+1) for i in range(10)]
-    if vform.validate_on_submit():
-        return redirect(url_for("front"))
     return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform, fields=fields)
 
 @app.route('/poll/results/<id>')
