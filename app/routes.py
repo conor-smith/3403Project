@@ -120,9 +120,8 @@ class MediaView(ModelView):
     }
 
     # List View
-    column_list = ["title", "mtype", "poster"]
-    column_labels = dict(mtype = "Media Type")
-    column_filters = ["title", "mtype"]
+    column_list = ["title", "poster"]
+    column_filters = ["title"]
     def get_poster_url(view, context, model, name):
         return Markup(
             u"<a href='%s'>%s</a>" % ("/static/" + model.poster,model.poster)
@@ -130,10 +129,10 @@ class MediaView(ModelView):
     column_formatters = dict(poster = get_poster_url)
 
     # Create View
-    form_create_rules = ["title", "mtype", "upload"]
+    form_create_rules = ["title", "upload"]
 
     # Edit View
-    form_edit_rules = ["title", "mtype", "poll", "upload"]
+    form_edit_rules = ["title", "poll", "upload"]
     form_args = dict(poll=dict(label="Is In Polls"))
     form_widget_args = {"poll":{"disabled": True}}
     
@@ -141,8 +140,6 @@ class MediaView(ModelView):
     def on_model_change(self, form, model, is_created):
         if not form.title.data:
             raise ValidationError('Title Required')
-        if not form.mtype.data:
-            raise ValidationError('Media Type Required')
         # Sets filepath of poster image
         if form.upload.data:
             model.poster = "img/" + form.upload.data.filename
@@ -170,24 +167,20 @@ class MediaView(ModelView):
             return redirect(url_for("login", next=request.url))
 
 
-#TODO hide associates in both, hide timestamp in both, hide active - in create, hide author in edit, 
-# get author autofilled by logged in user, 
 class PollView(ModelView):
     # All Views
     #form_extra_fields = {}
 
     # List View
-    column_list = ["name", "mtype", "author", "timestamp"]
-    column_labels = dict(mtype="Media Type")
-    column_filters = ["name", "mtype", "author.username", "timestamp"]
+    column_list = ["name", "author", "timestamp"]
+    column_filters = ["name", "author.username", "timestamp"]
 
     # Create View
-    form_create_rules = ["name", "choices", "mtype"]
-    form_args = dict(mtype=dict(label="Media Type"))
+    form_create_rules = ["name", "choices"]
 
     # Edit View
-    form_edit_rules = ["name", "choices", "mtype", "active", 
-        "timestamp", "author", "associates"]
+    form_edit_rules = ["name", "choices", "active", 
+        "timestamp", "author"]
     form_widget_args = {
         "timestamp" : {"disabled": True},
         "author" : {"disabled" : True}
@@ -199,12 +192,11 @@ class PollView(ModelView):
             raise ValidationError('Name Required')
         if not form.choices.data:
             raise ValidationError('Choices Required')
-        if not form.mtype.data:
-            raise ValidationError('Media Type Required')
-
-        
         # Sets author to user logged in at time
         model.author = current_user
+
+    def on_model_delete(self, model):
+        model.choices = []
     
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):
