@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, Markup
 from app import app, db, admin
-from app.forms import LoginForm, RegistrationForm, CreatePollForm
+from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
@@ -81,7 +81,7 @@ class UserView(ModelView):
 
     # Edit View
     form_edit_rules = ["username", "change_pword", "admin",
-        "votes"]
+                        "votes"]
 
     # Validation and and setting of database fields that are not automatic
     def on_model_change(self, form, model, is_created):
@@ -168,9 +168,6 @@ class MediaView(ModelView):
 
 
 class PollView(ModelView):
-    # All Views
-    #form_extra_fields = {}
-
     # List View
     column_list = ["name", "author", "timestamp"]
     column_filters = ["name", "author.username", "timestamp"]
@@ -180,7 +177,7 @@ class PollView(ModelView):
 
     # Edit View
     form_edit_rules = ["name", "choices", "active", 
-        "timestamp", "author"]
+                        "timestamp", "author"]
     form_widget_args = {
         "timestamp" : {"disabled": True},
         "author" : {"disabled" : True}
@@ -214,7 +211,7 @@ class PollView(ModelView):
             flash("Login required")
             return redirect(url_for("login", next=request.url))
 
-# Adds a page for each database model
+# Adds a view for each database model
 admin.add_view(UserView(User, db.session))
 admin.add_view(MediaView(Media, db.session))
 admin.add_view(PollView(Poll, db.session))

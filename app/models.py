@@ -4,93 +4,91 @@ from hashlib import md5
 from datetime import datetime
 from flask_login import UserMixin
 
-#An association table which links GlobalPolls to Users
+# An association table which links GlobalPolls to Users
 class UserPolls(db.Model):
-    #id of user
-    u_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key = True)
-    #id of GlobalPolls object
-    gp_id = db.Column(db.Integer, db.ForeignKey("global_polls.id"), primary_key = True)
-    score = db.Column(db.Integer, default = 0)                      #Score given to this GP object by user
+    u_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key = True)          # id of user
+    gp_id = db.Column(db.Integer, db.ForeignKey("global_polls.id"), primary_key = True) # id of GlobalPolls object
+    score = db.Column(db.Integer, default = 0)                                          # Score given to this GP object by user
     #backref p_user. Returns user object
     #backref p_gp. Returns GlobalPolls object
     
-    #How to print this object
+    # How to print this object
     def __repr__(self):
         return "<gp {}, user {}, score {}>".format(self.p_gp, self.p_user, self.score)
 
-#An association object. Is an object rather than a table because that makes it easier
-#to record score/votes
+# An association object. Is an object rather than a table because that makes it easier
+# to record score/votes
 class GlobalPolls(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    p_id = db.Column(db.Integer, db.ForeignKey("poll.id"))          #id of poll
-    m_id = db.Column(db.Integer, db.ForeignKey("media.id"))         #id of media
-    parent_poll = db.relationship("Poll", backref = "associates")   #returns poll
-    parent_med = db.relationship("Media", backref = "poll_votes")   #returns media
-    all_votes = db.relationship("UserPolls", backref = "p_gp")      #returns all votes
+    p_id = db.Column(db.Integer, db.ForeignKey("poll.id"))          # id of poll
+    m_id = db.Column(db.Integer, db.ForeignKey("media.id"))         # id of media
+    parent_poll = db.relationship("Poll", backref = "associates")   # returns poll
+    parent_med = db.relationship("Media", backref = "poll_votes")   # returns media
+    all_votes = db.relationship("UserPolls", backref = "p_gp")      # returns all votes
 
-    #How to print this object
+    # How to print this object
     def __repr__(self):
         return "<poll {}, media {}>".format(self.parent_poll, self.parent_med)
 
-#Stores all media
+# Stores all media (previously included games and music, scoped down to movies only due to time constraints)
 class Media(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(64), index = True, unique = True)   #Name of media
-    poster = db.Column(db.String(100), default = "img/poster.png")  #A string specifying a file in app/static/img
+    title = db.Column(db.String(64), index = True, unique = True)   # Name of media
+    poster = db.Column(db.String(100), default = "img/poster.png")  # A string specifying a file in app/static/img
     #backref = poll. Returns all polls this is present in
 
-    #How to print this object
+    # How to print this object
     def __repr__(self):
         return "<Media {}>".format(self.title)
 
-    #Deletes a particular peice of media
+    # Deletes a particular piece of media
     def delete_media(self):
         db.session.delete(self)
         db.session.commit()
 
-#Stores all polls
+# Stores all polls
 class Poll(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(128), unique = True)                 #The name of the poll(best sci-fi, etc)
-    creator = db.Column(db.Integer, db.ForeignKey("user.id"))       #The id of the user who created the poll
-    timestamp = db.Column(db.DateTime, default = datetime.utcnow)   #The time and date of creation
-    active = db.Column(db.Boolean(), default = True)                #Whether or not poll can be voted on
-    choices = db.relationship("Media", secondary = "global_polls",  #Returns all media in this poll
+    name = db.Column(db.String(128), unique = True)                 # The name of the poll(best sci-fi, etc)
+    creator = db.Column(db.Integer, db.ForeignKey("user.id"))       # The id of the user who created the poll
+    timestamp = db.Column(db.DateTime, default = datetime.utcnow)   # The time and date of creation
+    active = db.Column(db.Boolean(), default = True)                # Whether or not poll can be voted on
+    choices = db.relationship("Media", secondary = "global_polls",  # Returns all media in this poll
                                 backref = "poll")
     #backref = author. Returns creator of this poll
     #backref = associates. Returns all associated globalPolls objects
 
-    #How to print this object
+    # How to print this object
     def __repr__(self):
         return "<Poll {}>".format(self.name)
 
-    #Check if poll contains media
+    # Check if poll contains media
     def contains(self, media):
         return media in self.choices
 
-    #Add media to poll
+    # Add media to poll
     def add_media(self, media):
         if not self.contains(media):
             self.choices.append(media)
     
-    #Remove media from poll(I don't know if this will be used but it's good to have)
+    # Remove media from poll(I don't know if this will be used but it's good to have)
     def remove_media(self, media):
         if self.contains(media):
             self.choices.remove(media)
 
-    #Deletes poll
+    # Deletes poll
     def delete_poll(self):
         db.session.delete(self)
         db.session.commit()
     
-    #Returns all participants
+    # Returns all participants
     def voters(self):
         vot = []
         for up in self.associates[0].all_votes:
             vot.append(up.p_user)
         return vot
 
-    #Returns global totals for all choices
+    # Returns global totals for all choices
     def totals(self):
         tot = []
         for gp in self.associates:
@@ -100,41 +98,41 @@ class Poll(db.Model):
             tot.append({"Media" : gp.parent_med, "GlobalScore" : tally})
         return tot
         
-#Stores all users
+# Stores all users
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)        
-    username = db.Column(db.String(64), index = True, unique = True)#Username
-    password_hash = db.Column(db.String(128))                       #Contains encrypted password
-    admin = db.Column(db.Boolean(), default = False)                #if True, user is an admin
-    created_polls = db.relationship("Poll", backref = "author",     #returns all polls created by this user
+    username = db.Column(db.String(64), index = True, unique = True)    # Username
+    password_hash = db.Column(db.String(128))                           # Contains encrypted password
+    admin = db.Column(db.Boolean(), default = False)                    # if True, user is an admin
+    created_polls = db.relationship("Poll", backref = "author",         # returns all polls created by this user
                                     lazy = "dynamic")
-    votes = db.relationship("UserPolls", backref = "p_user")        #links to all votes of a user
+    votes = db.relationship("UserPolls", backref = "p_user")            # links to all votes of a user
 
-    #How to print this object
+    # How to print this object
     def __repr__(self):
         return "<User {}>".format(self.username)
 
-    #Sets encrypted password
+    # Sets encrypted password
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    #Checks password
+    # Checks password
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    #Deletes account
+    # Deletes account
     def delete_account(self):
         db.session.delete(self)
         db.session.commit()
 
-    #checks if user has already participated in a poll
+    # checks if user has already participated in a poll
     def already_voted(self, poll):
         for up in self.votes:
             if up.p_gp.parent_poll == poll:
                 return True
         return False
 
-    #Removes previous votes(Used before redoing a poll)
+    # Removes previous votes(Used before redoing a poll)
     def remove_user_poll(self, poll):
         if self.already_voted(poll):
             for up in self.votes:
@@ -148,7 +146,7 @@ class User(UserMixin, db.Model):
                 db.session.add(UserPolls(u_id = self.id, gp_id = gp.id, score = score))
                 break
 
-    #Returns all polls the user has participated in
+    # Returns all polls the user has participated in
     def all_polls(self):
         ap = []
         for up in self.votes:

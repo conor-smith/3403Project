@@ -13,7 +13,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField("Remember me")
     submit = SubmitField("Sign in")
 
-# TODO email verification (optional)
+# TODO email (optional)
 class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
         render_kw={"placeholder": "Username"})
@@ -28,24 +28,3 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
-
-# TODO complete other variables automatically e.g. creator, timestamp, etc.
-# TODO validation checking for fields e.g. make sure name makes sense, or genre exists, etc.
-class CreatePollForm(FlaskForm):
-    #creator = 
-    name = StringField("name", validators=[InputRequired()], 
-        render_kw={"placeholder": "Name"})
-    mtype = SelectField("Media Type", 
-        choices=[("games", "Games"), ("movies", "Movies"), ("music", "Music")], 
-        validators=[InputRequired()]) 
-        # possible to add games, movie, music as only possible options in database instead of string type?
-    genre = SelectField("Genre", choices=[("horror", "Horror"), ("comedy", "Comedy"), ("drama", "Drama")], 
-        validators=[InputRequired()]) 
-        # PLACEHOLDER, probably need to make a set list of genres in database ahead of time,
-        # and maybe superadmin ability to add new genres
-        # also complicated with different media genres (e.g. RPG exists in games but not in movies and music)
-    # choices = 
-        # ???
-    submit = SubmitField("Create Poll")
-
-# TODO route for register, various admin page forms and various user forms
