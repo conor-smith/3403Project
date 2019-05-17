@@ -1,4 +1,10 @@
+# Testing folder
 test/
+# Database
+app.db
+/migrations
+# vscode
+.vscode/
 
 # Below is from https://github.com/github/gitignore
 # Byte-compiled / optimized / DLL files

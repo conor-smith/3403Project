@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if not user %}
+{% if current_user.is_anonymous %}
   <!-- JUMBOTRON -->
-  <div class = "jumbotron"> <!-- TODO show only if not logged in-->
+  <div class = "jumbotron">
     <h1 class = "display-4">Media Ranking Website</h1>
     <p class = "lead">This website aims to rank different forms of media based on user polling. </p> <!-- TODO improve description-->
     <a class = "btn btn-primary btn-lg" href="{{url_for('register')}}" role="button">Register</a>
-    <a class = "btn btn-secondary btn-lg" href="{{ url_for('about_us') }}'" role="button">Learn more</a>
+    <a class = "btn btn-secondary btn-lg" href="{{ url_for('about_us') }}" role="button">Learn more</a>
   </div>
 {% endif %}
 
 <!-- MAIN CONTENT -->
+<!-- Logged in user -->
+{% if current_user.is_authenticated %}
 <main class = "container-fluid"> <!-- TODO show random polls if not logged in,
   otherwise show personalised selection-->
   <h2>Personalised Polls</h2>
@@ -23,4 +25,10 @@
     {% endfor %}
   </div>
 </main>
+{% else %} <!-- Not logged in -->
+<main class = "container-fluid"> 
+  <h2>Randomized Polls</h2>
+</main>
+{% endif %}
+
 {% endblock %}

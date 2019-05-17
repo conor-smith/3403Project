@@ -35,34 +35,36 @@
         <li class = "nav-item">
           <a class = "nav-link" href="#">Archives</a> <!-- TODO make this page -->
         </li>
-        {%if user %}
-          {% if user.isAdmin %}
-            <li class = "nav-item dropdown">
-              <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">
-                Admin Tools
-              </a>
-
-              <div class = "dropdown-menu">
-                <a class = "dropdown-item" href="#">Create Polls</a> <!-- Admin only --> <!-- TODO make this page -->
-                <a class = "dropdown-item" href="#">User Details</a> <!-- Admin only --> <!-- TODO make this page -->
-                <a class = "dropdown-item" href="#">Modify Admins</a> <!-- Super admin only --> <!-- TODO make this page -->
-              </div>
-            </li>
-          {% endif %}
+        {% if current_user and not current_user.is_anonymous and current_user.admin %}
+          <li class = "nav-item dropdown">
+            <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">
+              Admin Tools
+            </a>
+            <!-- TODO change based on superadmin or not -->
+            <div class = "dropdown-menu">
+              <a class = "dropdown-item" href="{{url_for('admin.index')}}">Admin Home</a>
+              <a class = "dropdown-item" href="{{url_for('user.index_view')}}">Modify Users</a>
+              <a class = "dropdown-item" href="{{url_for('poll.index_view')}}">Modify Polls</a>
+              <a class = "dropdown-item" href="{{url_for('media.index_view')}}">Modify Media</a>
+            </div>
+          </li>
         {% endif %}
       </ul>
 
       <!-- Right side navbar elements -->
-      {% if user %}
+      {% if current_user and not current_user.is_anonymous %}
         <ul class = "navbar-nav ml-auto">
           <li class = "nav-item">
-            <p class = "nav-link" id="userlogin">Welcome {{ user.username }}</a>
+            <p class = "nav-link" id="userlogin">Welcome {{ current_user.username }}</a>
+          </li>
+          <li class = "nav-item">
+            <a class = nav-link href = "{{ url_for('logout') }}">Log out</a>
           </li>
         </ul>
       {% else %}
         <ul class = "navbar-nav ml-auto">
           <li class = "nav-item">
-            <p class = "nav-link" id="userlogin">Log in</a>
+            <a class = "nav-link" href="#" data-toggle="modal" data-target="#login">Log in</a>
           </li>
           <li class = "nav-item">
             <a class = "nav-link" href="{{url_for('register')}}">Register</a>
@@ -71,20 +73,38 @@
       {% endif %}
     </nav>
 
-    <!-- Login popup -->
-    <div class = "container" id = "ulogin">
-      <h2>Log in today!</h2>Changed computers? New browser? Our revolutionary online system
-      remembers who you are and allows you to sign in from anywhere in the world
-      <form>
-        <br>
-        <input type = "text" placeholder="username"><br><br>
-        <input type = "password" placeholder="password"><br><br>
-        Remember me <input type = "checkbox"><br><br>
-        <input type = "submit" value = "submit">
-      </form>
+    {% if current_user.is_anonymous %}
+    <!-- Log In Modal -->
+    <div id="login" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Log In</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body" id="renderLogin"></div>
+          <script>window.onload = renderLogin()</script>
+
+          <div class="modal-footer">
+            <p>
+              Don't have an account? <a href="{{url_for('register')}}">Sign Up</a>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- "Dims" page and removes popup when clicked -->
-    <div id = "cover"></div>
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="alert alert-primary" role="alert">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 
     {% block content %}{% endblock %}
 

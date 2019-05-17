@@ -19,21 +19,35 @@ What things you need to install the software and how to install them
 Give examples
 ```
 
+- flask-wtf
+- Flask-SQLAlchemy
+- Flask-Migrate
+- python-dotenv
+- flask-login
+- flask-admin
+
+
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+#### To add admin account
+- in project directory
+- go into your virtual environment (if needed)
+- open the python interpreter using 'python'
+- do the following commands
+  - from app import db
+  - from app.models import User
+  - u = User(username='usern', admin = 1)
+  - u.set_password('pword')
+  - db.session.add(u)
+  - db.session.commit()
+- replace "usern" with your desired username and "pword" with your desired password
 
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
+#### To init db:
+- flask db init
+- flask db migrate
+- flask db upgrade
 
 End with an example of getting some data out of the system or using it for a little demo
 
