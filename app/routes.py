@@ -15,13 +15,22 @@ def front():
 
 @app.route('/poll/<id>', methods=['GET', 'POST'])
 def poll_page(id):
+    if current_user.is_anonymous:
+        return redirect(url_for("front"))
     poll = Poll.query.filter(Poll.id == int(id)).first()
     vform = VoteOnPoll()
-    print(getattr(vform, vform.fields[0]))
+    print(vform.vote6.data)
+    if vform.validate_on_submit():
+        current_user.remove_user_poll(poll)
+        for i in range(len(poll.choices)):
+            current_user.vote_on_media(poll, poll.choices[i], int(getattr(vform, "vote{}".format(i+1)).data))
+        db.session.commit()
+        return redirect(url_for("front"))
     length = len(poll.choices)
+    fields = ["vote{}".format(i+1) for i in range(10)]
     if vform.validate_on_submit():
         return redirect(url_for("front"))
-    return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform)
+    return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform, fields=fields)
 
 @app.route('/poll/results/<id>')
 def poll_results(id):

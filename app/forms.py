@@ -10,20 +10,20 @@ class VoteOnPoll(FlaskForm):
 
     submit = SubmitField("Vote!")
 
-    fields = ["vote{}".format(i+1) for i in range(10)]
+    #fields = ["vote{}".format(i+1) for i in range(10)]
 
-    choices = [(str(i+1),str(i+1)) for i in range(10)]
+    #choices = [(str(i+1),str(i+1)) for i in range(10)]
     
-    vote1 = SelectField("vote1", choices=choices)
-    vote2 = SelectField("vote2", choices=choices)
-    vote3 = SelectField("vote3", choices=choices)
-    vote4 = SelectField("vote4", choices=choices)
-    vote5 = SelectField("vote5", choices=choices)
-    vote6 = SelectField("vote6", choices=choices)
-    vote7 = SelectField("vote7", choices=choices)
-    vote8 = SelectField("vote8", choices=choices)
-    vote9 = SelectField("vote9", choices=choices)
-    vote10 = SelectField("vote10", choices=choices)
+    vote1 = SelectField("vote1", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote2 = SelectField("vote2", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote3 = SelectField("vote3", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote4 = SelectField("vote4", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote5 = SelectField("vote5", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote6 = SelectField("vote6", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote7 = SelectField("vote7", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote8 = SelectField("vote8", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote9 = SelectField("vote9", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote10 = SelectField("vote10", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
 
     def get(self, field_name):
         getattr(self, field_name)
