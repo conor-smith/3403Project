@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app, db, admin
-from app.forms import LoginForm, RegistrationForm, CreatePollForm
+from app.forms import LoginForm, RegistrationForm, CreatePollForm, VoteOnPoll
 from flask_login import current_user, login_user, logout_user
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
@@ -13,8 +13,18 @@ def front():
     polls = Poll.query.filter(Poll.active).all()
     return render_template("front.html", title="Front Page", polls=polls)
 
-@app.route('/poll/<pollid>')
-def poll():
+@app.route('/poll/<id>', methods=['GET', 'POST'])
+def poll_page(id):
+    poll = Poll.query.filter(Poll.id == int(id)).first()
+    vform = VoteOnPoll()
+    print(getattr(vform, vform.fields[0]))
+    length = len(poll.choices)
+    if vform.validate_on_submit():
+        return redirect(url_for("front"))
+    return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform)
+
+@app.route('/poll/results/<id>')
+def poll_results(id):
     pass
 
 @app.route('/login', methods=['GET', 'POST'])

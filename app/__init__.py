@@ -7,6 +7,7 @@ from flask_admin import Admin
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.jinja_env.globals.update(getat=getattr)
 
 # Database
 db = SQLAlchemy(app)

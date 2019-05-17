@@ -3,7 +3,30 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Selec
 # https://github.com/wtforms/wtforms/blob/master/src/wtforms/fields/html5.py , it's undocumented on purpose apparently :shrug:
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, ValidationError
-from app.models import User
+from app.models import User, Poll
+
+
+class VoteOnPoll(FlaskForm):
+
+    submit = SubmitField("Vote!")
+
+    fields = ["vote{}".format(i+1) for i in range(10)]
+
+    choices = [(str(i+1),str(i+1)) for i in range(10)]
+    
+    vote1 = SelectField("vote1", choices=choices)
+    vote2 = SelectField("vote2", choices=choices)
+    vote3 = SelectField("vote3", choices=choices)
+    vote4 = SelectField("vote4", choices=choices)
+    vote5 = SelectField("vote5", choices=choices)
+    vote6 = SelectField("vote6", choices=choices)
+    vote7 = SelectField("vote7", choices=choices)
+    vote8 = SelectField("vote8", choices=choices)
+    vote9 = SelectField("vote9", choices=choices)
+    vote10 = SelectField("vote10", choices=choices)
+
+    def get(self, field_name):
+        getattr(self, field_name)
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
@@ -39,8 +62,8 @@ class CreatePollForm(FlaskForm):
         choices=[("games", "Games"), ("movies", "Movies"), ("music", "Music")], 
         validators=[InputRequired()]) 
         # possible to add games, movie, music as only possible options in database instead of string type?
-    genre = SelectField("Genre", choices=[("horror", "Horror"), ("comedy", "Comedy"), ("drama", "Drama")], 
-        validators=[InputRequired()]) 
+    #genre = SelectField("Genre", choices=[("horror", "Horror"), ("comedy", "Comedy"), ("drama", "Drama")], 
+    #    validators=[InputRequired()]) 
         # PLACEHOLDER, probably need to make a set list of genres in database ahead of time,
         # and maybe superadmin ability to add new genres
         # also complicated with different media genres (e.g. RPG exists in games but not in movies and music)
