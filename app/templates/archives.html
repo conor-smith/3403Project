@@ -14,15 +14,6 @@
 <!-- MAIN CONTENT -->
 <main class = "container-fluid"> <!-- TODO show random polls if not logged in,
   otherwise show personalised selection-->
-  <h2>Active Polls</h2>
-  <div class = "row">
-    {% for p in active %}
-    <div class = "col-md-4 mb-3">
-      <a href = "{{ url_for('poll_page', id = p.id) }}" > <img class = "img-fluid" width = "400" height = "270" 
-        src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
-    </div>
-    {% endfor %}
-  </div>
   <h2>Inactive Polls</h2>
   <div class = "row">
     {% for p in inactive %}

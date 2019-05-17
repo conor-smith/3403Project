@@ -29,9 +29,11 @@
       
       <!-- Left side navbar elements -->
       <ul class = "navbar-nav mr-auto">
+        {% if not current_user.is_anonymous %}
         <li class = "nav-item">
           <a class = "nav-link" href="{{ url_for('archives') }}">Archives</a>
         </li>
+        {% endif %}
         {% if current_user and not current_user.is_anonymous and current_user.admin %}
           <li class = "nav-item dropdown">
             <a class = "nav-link dropdown-toggle" href = "#" id = "navbardrop" data-toggle = "dropdown">

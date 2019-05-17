@@ -16,9 +16,10 @@ def front():
     return render_template("front.html", title="Front Page", polls=polls)
 
 @app.route('/archives')
+@login_required
 def archives():
     active = Poll.query.filter(Poll.active).all()
-    inactive = Poll.query.filter(not Poll.active).all()
+    inactive = Poll.query.filter(Poll.active == False).all()
     return render_template("archives.html", active=active, inactive=inactive)
 
 @app.route('/poll/<id>', methods=['GET', 'POST'])
