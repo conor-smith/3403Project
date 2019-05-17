@@ -97,6 +97,17 @@ class Poll(db.Model):
                 tally += up.score
             tot.append({"Media" : gp.parent_med, "GlobalScore" : tally})
         return tot
+
+    #Returns one movie poster
+    def cover(self):
+        if len(self.choices) == 0:
+            return "img/poster.png"
+        return self.choices[0].poster
+
+    #Deactivtes all current open polls
+    def close_all():
+        for p in Poll.query.filter(Poll.active).all():
+            p.active = False
         
 # Stores all users
 class User(UserMixin, db.Model):

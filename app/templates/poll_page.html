@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class = "container-fluid">
+  <h2>Vote from 1-10</h2><br>
+  <p>1 = best answers the poll, 10 = least answers the poll</p>
+  <form method = "POST" action = "">
+    {{ vform.hidden_tag() }}
+    <div class = "row">
+      {% for i in range(length) %}
+      <div class = "col-md-3">
+        <img class = "img-fluid" src = "{{ url_for('static', filename=poll.choices[i].poster) }}"><br>
+        {{ getat(vform, fields[i]) }}
+      </div>
+      {% endfor %}
+    </div>
+    {{ vform.submit }}
+  </form>
+</main>
+{% endblock %}

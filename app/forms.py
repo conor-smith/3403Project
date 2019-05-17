@@ -3,7 +3,30 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Selec
 # https://github.com/wtforms/wtforms/blob/master/src/wtforms/fields/html5.py , it's undocumented on purpose apparently :shrug:
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, ValidationError
-from app.models import User
+from app.models import User, Poll
+
+
+class VoteOnPoll(FlaskForm):
+
+    submit = SubmitField("Vote!")
+
+    #fields = ["vote{}".format(i+1) for i in range(10)]
+
+    #choices = [(str(i+1),str(i+1)) for i in range(10)]
+    
+    vote1 = SelectField("vote1", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote2 = SelectField("vote2", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote3 = SelectField("vote3", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote4 = SelectField("vote4", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote5 = SelectField("vote5", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote6 = SelectField("vote6", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote7 = SelectField("vote7", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote8 = SelectField("vote8", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote9 = SelectField("vote9", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote10 = SelectField("vote10", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+
+    def get(self, field_name):
+        getattr(self, field_name)
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 

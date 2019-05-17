@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, Markup
 from app import app, db, admin
 from app.forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeUsernameForm
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required, CreatePollForm, VoteOnPoll
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form.upload import ImageUploadField
@@ -12,12 +12,37 @@ import os
 @app.route('/')
 @app.route('/front')
 def front():
-    example_poll = {
-        "img" : "img/poster.png"
-    }
-    polls = [example_poll, example_poll, example_poll, example_poll, example_poll, example_poll]
+    polls = Poll.query.filter(Poll.active).all()
     return render_template("front.html", title="Front Page", polls=polls)
 
+@app.route('/poll/<id>', methods=['GET', 'POST'])
+def poll_page(id):
+    if current_user.is_anonymous:
+        return redirect(url_for("poll_results", id=id))
+    poll = Poll.query.get(int(id))
+    vform = VoteOnPoll()
+    if vform.validate_on_submit():
+        current_user.remove_user_poll(poll)
+        for i in range(len(poll.choices)):
+            current_user.vote_on_media(poll, poll.choices[i], int(getattr(vform, "vote{}".format(i+1)).data))
+        db.session.commit()
+        return redirect(url_for("front"))
+    length = len(poll.choices)
+    fields = ["vote{}".format(i+1) for i in range(10)]
+    if vform.validate_on_submit():
+        return redirect(url_for("front"))
+    return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform, fields=fields)
+
+@app.route('/poll/results/<id>')
+def poll_results(id):
+    poll = Poll.query.get(int(id))
+    sorted_scores = sorted(poll.totals(), key = lambda i: i["GlobalScore"])
+    if current_user.is_authenticated:
+        for ss in sorted_scores:
+            for us in current_user.poll_results(poll):
+                if us["Media"] == ss["Media"]:
+                    ss["UserScore"] = us["Score"]
+    return render_template("poll_results.html", data=sorted_scores, length=len(sorted_scores))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
