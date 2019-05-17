@@ -16,7 +16,7 @@ def front():
 @app.route('/poll/<id>', methods=['GET', 'POST'])
 def poll_page(id):
     if current_user.is_anonymous:
-        return redirect(url_for("front"))
+        return redirect(url_for("poll_results", id=id))
     poll = Poll.query.get(int(id))
     vform = VoteOnPoll()
     if vform.validate_on_submit():

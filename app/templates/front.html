@@ -18,7 +18,8 @@
   <div class = "row">
     {% for p in polls %}
     <div class = "col-md-4 mb-3">
-      <a href = "#"> <img class = "img-fluid" width = "400" height = "270" src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
+      <a href = "{{ url_for('poll_page', id = p.id) }}" > <img class = "img-fluid" width = "400" height = "270" 
+        src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
     </div>
     {% endfor %}
   </div>
