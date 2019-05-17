@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, Markup
 from app import app, db, admin
-from app.forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeUsernameForm
-from flask_login import current_user, login_user, logout_user, login_required, CreatePollForm, VoteOnPoll
+from app.forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeUsernameForm, VoteOnPoll
+from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form.upload import ImageUploadField
@@ -26,11 +26,9 @@ def poll_page(id):
         for i in range(len(poll.choices)):
             current_user.vote_on_media(poll, poll.choices[i], int(getattr(vform, "vote{}".format(i+1)).data))
         db.session.commit()
-        return redirect(url_for("front"))
+        return redirect(url_for("poll_results", id=id))
     length = len(poll.choices)
     fields = ["vote{}".format(i+1) for i in range(10)]
-    if vform.validate_on_submit():
-        return redirect(url_for("front"))
     return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform, fields=fields)
 
 @app.route('/poll/results/<id>')
