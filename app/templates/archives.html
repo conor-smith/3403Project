@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_anonymous %}
+  <!-- JUMBOTRON -->
+  <div class = "jumbotron">
+    <h1 class = "display-4">Media Ranking Website</h1>
+    <p class = "lead">This website aims to rank different forms of media based on user polling. </p> <!-- TODO improve description-->
+    <a class = "btn btn-primary btn-lg" href="{{url_for('register')}}" role="button">Register</a>
+    <a class = "btn btn-secondary btn-lg" href="{{ url_for('about_us') }}" role="button">Learn more</a>
+  </div>
+{% endif %}
+
+<!-- MAIN CONTENT -->
+<main class = "container-fluid"> <!-- TODO show random polls if not logged in,
+  otherwise show personalised selection-->
+  <h2>Active Polls</h2>
+  <div class = "row">
+    {% for p in active %}
+    <div class = "col-md-4 mb-3">
+      <a href = "{{ url_for('poll_page', id = p.id) }}" > <img class = "img-fluid" width = "400" height = "270" 
+        src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
+    </div>
+    {% endfor %}
+  </div>
+  <h2>Inactive Polls</h2>
+  <div class = "row">
+    {% for p in inactive %}
+    <div class = "col-md-4 mb-3">
+      <a href = "{{ url_for('poll_page', id = p.id) }}" > <img class = "img-fluid" width = "400" height = "270" 
+        src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
+    </div>
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock %}

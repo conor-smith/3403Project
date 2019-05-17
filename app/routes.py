@@ -15,6 +15,12 @@ def front():
     polls = Poll.query.filter(Poll.active).all()
     return render_template("front.html", title="Front Page", polls=polls)
 
+@app.route('/archives')
+def archives():
+    active = Poll.query.filter(Poll.active).all()
+    inactive = Poll.query.filter(not Poll.active).all()
+    return render_template("archives.html", active=active, inactive=inactive)
+
 @app.route('/poll/<id>', methods=['GET', 'POST'])
 def poll_page(id):
     if current_user.is_anonymous:
