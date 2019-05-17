@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, Markup
 from app import app, db, admin
-from app.forms import LoginForm, RegistrationForm
-from flask_login import current_user, login_user, logout_user
+from app.forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeUsernameForm
+from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form.upload import ImageUploadField
@@ -18,6 +18,7 @@ def front():
     polls = [example_poll, example_poll, example_poll, example_poll, example_poll, example_poll]
     return render_template("front.html", title="Front Page", polls=polls)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -33,11 +34,13 @@ def login():
         return redirect(url_for("front"))
     return render_template("login.html", title="Log in", lform=lform)
 
+
 @app.route('/logout')
 def logout(): 
     logout_user()
     flash("You have logged out successfully")
     return redirect(url_for("front"))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -57,12 +60,59 @@ def register():
         return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
+
 @app.route('/about_us')
 def about_us():
     return render_template("about_us.html", title="About Us")
 
 
+@app.route('/manage_account')
+@login_required
+def manage_account():
+    return render_template("manage_account.html", title="Manage Account", 
+                            pwform=ChangePasswordForm(), unform=ChangeUsernameForm())
+
+
+@app.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    pwform = ChangePasswordForm()
+    user = User.query.filter_by(username = current_user.username).first()
+    if user is None or not user.check_password(pwform.current.data):
+        flash("Current password is incorrect")
+        return redirect(url_for("manage_account"))
+    if pwform.validate_on_submit():
+        user.set_password(pwform.new.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("Password change successful")
+        return redirect(url_for("manage_account"))
+    
+
+@app.route('/change_username', methods=['POST'])
+@login_required
+def change_username():
+    unform = ChangeUsernameForm()
+    user = User.query.filter_by(username = unform.new.data).first()
+    if not user is None:
+        flash("Username already exists")
+        return redirect(url_for("manage_account"))
+    user = User.query.filter_by(username = current_user.username).first()
+    if not user.check_password(unform.current.data):
+        flash("Current password is incorrect")
+        return redirect(url_for("manage_account"))
+    if unform.validate_on_submit():
+        user.username=unform.new.data
+        db.session.commit()
+        flash("Username change successful")
+        return redirect(url_for("manage_account"))
+    else:
+        flash("error")
+        return redirect(url_for("manage_account"))
+
+
 # DATABASE DASHBOARD ROUTES
+# TODO set all polls inactive
 # TODO (low priority) edge case where only admin tries to un-admin themselves
 # TODO (optional) show current unhashed password in users page
 # TODO (optional) email

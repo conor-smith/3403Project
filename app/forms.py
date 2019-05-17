@@ -28,3 +28,19 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
+
+class ChangePasswordForm(FlaskForm):
+    current = PasswordField("Current Password", validators=[InputRequired()], 
+        render_kw={"placeholder": "Current Password"})
+    new = PasswordField("New Password", validators=[InputRequired()], 
+        render_kw={"placeholder": "New Password"})
+    confirm = PasswordField("Confirm New Password", validators=[InputRequired(), EqualTo('new')],
+        render_kw={"placeholder": "Confirm New Password"})
+    submit = SubmitField("Change Password")
+
+class ChangeUsernameForm(FlaskForm):
+    current = PasswordField("Current Password", validators=[InputRequired()], 
+        render_kw={"placeholder": "Current Password"})
+    new = PasswordField("New Username", validators=[InputRequired()], 
+        render_kw={"placeholder": "New Username"})
+    submit = SubmitField("Change Username")
