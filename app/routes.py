@@ -17,9 +17,8 @@ def front():
 def poll_page(id):
     if current_user.is_anonymous:
         return redirect(url_for("front"))
-    poll = Poll.query.filter(Poll.id == int(id)).first()
+    poll = Poll.query.get(int(id))
     vform = VoteOnPoll()
-    print(vform.vote6.data)
     if vform.validate_on_submit():
         current_user.remove_user_poll(poll)
         for i in range(len(poll.choices)):
@@ -34,7 +33,14 @@ def poll_page(id):
 
 @app.route('/poll/results/<id>')
 def poll_results(id):
-    pass
+    poll = Poll.query.get(int(id))
+    sorted_scores = sorted(poll.totals(), key = lambda i: i["GlobalScore"])
+    if current_user.is_authenticated:
+        for ss in sorted_scores:
+            for us in current_user.poll_results(poll):
+                if us["Media"] == ss["Media"]:
+                    ss["UserScore"] = us["Score"]
+    return render_template("poll_results.html", data=sorted_scores, length=len(sorted_scores))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -2,17 +2,17 @@
 
 {% block content %}
 <main class = "container-fluid">
-  <h2>Vote from 1-10</h2><br>
-  <p>1 = best answers the poll, 10 = least answers the poll</p>
-  {{ vform.hidden_tag() }}
+  <h1>The current results!</h1><br>
   <div class = "row">
     {% for i in range(length) %}
     <div class = "col-md-3">
-      <img class = "img-fluid" src = "{{ url_for('static', filename=poll.choices[i].poster) }}"><br>
-      {{ getat(vform, vform.fields[0]) }}
+      <img class = "img-fluid" src = "{{ url_for('static', filename=data[i].Media.poster) }}"><br>
+      <p>Global ranking = {{ i+1 }}</p>
+      {% if data[i].UserScore %}
+      <br><p>Your ranking = {{ data[i].UserScore }}</p>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
-  {{ vform.submit }}
 </main>
 {% endblock %}
