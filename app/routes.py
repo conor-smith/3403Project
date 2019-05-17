@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, Markup
+from flask import render_template, redirect, url_for, flash, request, Markup, abort
 from app import app, db, admin
 from app.forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeUsernameForm, VoteOnPoll
 from flask_login import current_user, login_user, logout_user, login_required
@@ -27,6 +27,8 @@ def poll_page(id):
             current_user.vote_on_media(poll, poll.choices[i], int(getattr(vform, "vote{}".format(i+1)).data))
         db.session.commit()
         return redirect(url_for("poll_results", id=id))
+    if not poll:
+        abort(404)
     length = len(poll.choices)
     fields = ["vote{}".format(i+1) for i in range(10)]
     return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform, fields=fields)
@@ -34,6 +36,8 @@ def poll_page(id):
 @app.route('/poll/results/<id>')
 def poll_results(id):
     poll = Poll.query.get(int(id))
+    if not poll:
+        abort(404)
     sorted_scores = sorted(poll.totals(), key = lambda i: i["GlobalScore"])
     if current_user.is_authenticated:
         for ss in sorted_scores:
