@@ -18,7 +18,7 @@ class UserPolls(db.Model):
     def __repr__(self):
         return "<gp {}, user {}, score {}>".format(self.p_gp, self.p_user, self.score)
 
-#An association ojbect. Is an object rather than a table because that makes it easier
+#An association object. Is an object rather than a table because that makes it easier
 #to record score/votes
 class GlobalPolls(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -35,7 +35,7 @@ class GlobalPolls(db.Model):
 #Stores all media
 class Media(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(64), index = True)                  #Name of media
+    title = db.Column(db.String(64), index = True, unique = True)   #Name of media
     poster = db.Column(db.String(100), default = "img/poster.png")  #A string specifying a file in app/static/img
     mtype = db.Column(db.String(16), index = True)                  #Media type: Movie, Game, or Music
     #backref = poll. Returns all polls this is present in
@@ -52,7 +52,7 @@ class Media(db.Model):
 #Stores all polls
 class Poll(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(128))                                #The name of the poll(best sci-fi, etc)
+    name = db.Column(db.String(128), unique = True)                 #The name of the poll(best sci-fi, etc)
     creator = db.Column(db.Integer, db.ForeignKey("user.id"))       #The id of the user who created the poll
     timestamp = db.Column(db.DateTime, default = datetime.utcnow)   #The time and date of creation
     active = db.Column(db.Boolean(), default = True)                #Whether or not poll can be voted on
