@@ -12,23 +12,16 @@
 {% endif %}
 
 <!-- MAIN CONTENT -->
-<!-- Logged in user -->
-{% if current_user.is_authenticated %}
 <main class = "container-fluid"> <!-- TODO show random polls if not logged in,
   otherwise show personalised selection-->
   <h2>Personalised Polls</h2>
   <div class = "row">
     {% for p in polls %}
     <div class = "col-md-4 mb-3">
-      <a href = "#"> <img class = "img-fluid" src = "{{ url_for('static', filename=p.img) }}" alt = "Poll Image"> </a>
+      <a href = "#"> <img class = "img-fluid" width = "400" height = "270" src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
     </div>
     {% endfor %}
   </div>
 </main>
-{% else %} <!-- Not logged in -->
-<main class = "container-fluid"> 
-  <h2>Randomized Polls</h2>
-</main>
-{% endif %}
 
 {% endblock %}

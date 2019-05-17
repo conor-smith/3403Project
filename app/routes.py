@@ -10,11 +10,12 @@ from wtforms.validators import InputRequired, ValidationError
 @app.route('/')
 @app.route('/front')
 def front():
-    example_poll = {
-        "img" : "img/poster.png"
-    }
-    polls = [example_poll, example_poll, example_poll, example_poll, example_poll, example_poll]
+    polls = Poll.query.filter(Poll.active).all()
     return render_template("front.html", title="Front Page", polls=polls)
+
+@app.route('/poll/<pollid>')
+def poll():
+    pass
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
