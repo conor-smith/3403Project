@@ -55,7 +55,7 @@ def poll_results(id):
             for us in current_user.poll_results(poll):
                 if us["Media"] == ss["Media"]:
                     ss["UserScore"] = us["Score"]
-    return render_template("poll_results.html", title=poll.name+" results", data=sorted_scores, length=len(sorted_scores))
+    return render_template("poll_results.html", title=poll.name+" results", poll=poll, data=sorted_scores, length=len(sorted_scores))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

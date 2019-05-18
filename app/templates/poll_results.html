@@ -2,7 +2,7 @@
 
 {% block content %}
 <main class = "container-fluid">
-  <h1>The current results!</h1><br>
+  <h1>The current results for {{ poll.name }} </h1><br>
   <div class = "row">
     {% for i in range(length) %}
     <div class = "col-md-3">
@@ -14,5 +14,6 @@
     </div>
     {% endfor %}
   </div>
+  <a href = "{{ url_for('poll_page', id=poll.id) }}">Vote again?</a>
 </main>
 {% endblock %}
