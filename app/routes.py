@@ -31,7 +31,10 @@ def poll_page(id):
     if vform.validate_on_submit():
         current_user.remove_user_poll(poll)
         for i in range(len(poll.choices)):
-            current_user.vote_on_media(poll, poll.choices[i], int(getattr(vform, "vote{}".format(i+1)).data))
+            data = int(getattr(vform, "vote{}".format(i+1)).data)
+            if data < 1 or data > len(poll.choices):
+                data = len(poll.choices)
+            current_user.vote_on_media(poll, poll.choices[i], data)
         db.session.commit()
         return redirect(url_for("poll_results", id=id))
     if not poll:

@@ -53,6 +53,7 @@ class Poll(db.Model):
     creator = db.Column(db.Integer, db.ForeignKey("user.id"))       # The id of the user who created the poll
     timestamp = db.Column(db.DateTime, default = datetime.utcnow)   # The time and date of creation
     active = db.Column(db.Boolean(), default = True)                # Whether or not poll can be voted on
+    keyword = db.Column(db.String(20), default = "best")            # Used to display immediate purpose of poll
     choices = db.relationship("Media", secondary = "global_polls",  # Returns all media in this poll
                                 backref = "poll")
     #backref = author. Returns creator of this poll
