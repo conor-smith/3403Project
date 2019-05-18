@@ -20,13 +20,13 @@ def front():
 def archives():
     active = Poll.query.filter(Poll.active).all()
     inactive = Poll.query.filter(Poll.active == False).all()
-    return render_template("archives.html", active=active, inactive=inactive)
+    return render_template("archives.html", title="Archives", active=active, inactive=inactive)
 
 @app.route('/poll/<id>', methods=['GET', 'POST'])
 def poll_page(id):
-    if current_user.is_anonymous:
-        return redirect(url_for("poll_results", id=id))
     poll = Poll.query.get(int(id))
+    if current_user.is_anonymous or not poll.active:
+        return redirect(url_for("poll_results", id=id))
     vform = VoteOnPoll()
     if vform.validate_on_submit():
         current_user.remove_user_poll(poll)
@@ -38,7 +38,8 @@ def poll_page(id):
         abort(404)
     length = len(poll.choices)
     fields = ["vote{}".format(i+1) for i in range(10)]
-    return render_template("poll_page.html", title=poll.name, poll=poll, length=length, vform=vform, fields=fields)
+    return render_template("poll_page.html", extra_js="javascript/voting.js", title=poll.name, poll=poll,
+        extra_css="css/voting.css", length=length, vform=vform, fields=fields)
 
 @app.route('/poll/results/<id>')
 def poll_results(id):
@@ -51,7 +52,7 @@ def poll_results(id):
             for us in current_user.poll_results(poll):
                 if us["Media"] == ss["Media"]:
                     ss["UserScore"] = us["Score"]
-    return render_template("poll_results.html", data=sorted_scores, length=len(sorted_scores))
+    return render_template("poll_results.html", title=poll.name+" results", data=sorted_scores, length=len(sorted_scores))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

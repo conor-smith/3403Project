@@ -8,22 +8,18 @@ from app.models import User, Poll
 
 class VoteOnPoll(FlaskForm):
 
-    submit = SubmitField("Vote!")
-
-    #fields = ["vote{}".format(i+1) for i in range(10)]
-
-    #choices = [(str(i+1),str(i+1)) for i in range(10)]
+    submit = SubmitField("Submit!")
     
-    vote1 = SelectField("vote1", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote2 = SelectField("vote2", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote3 = SelectField("vote3", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote4 = SelectField("vote4", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote5 = SelectField("vote5", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote6 = SelectField("vote6", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote7 = SelectField("vote7", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote8 = SelectField("vote8", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote9 = SelectField("vote9", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
-    vote10 = SelectField("vote10", choices=[(str(i+1),str(i+1)) for i in range(10)], default = 10)
+    vote1 = StringField("vote1", default = 10)
+    vote2 = StringField("vote2", default = 10)
+    vote3 = StringField("vote3", default = 10)
+    vote4 = StringField("vote4", default = 10)
+    vote5 = StringField("vote5", default = 10)
+    vote6 = StringField("vote6", default = 10)
+    vote7 = StringField("vote7", default = 10)
+    vote8 = StringField("vote8", default = 10)
+    vote9 = StringField("vote9", default = 10)
+    vote10 =StringField("vote10", default = 10)
 
     def get(self, field_name):
         getattr(self, field_name)
