@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, request, Markup, ab
 from app import app, db, admin
 from app.forms import LoginForm, RegistrationForm, ChangePasswordForm, ChangeUsernameForm, VoteOnPoll
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Poll, Media
+from app.models import User, Poll, Media, GlobalPolls, UserPolls
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form.upload import ImageUploadField
 from flask_admin.actions import action
@@ -151,7 +151,6 @@ def change_username():
 
 
 # DATABASE DASHBOARD ROUTES
-# TODO set all polls inactive
 # TODO (low priority) edge case where only admin tries to un-admin themselves
 # TODO (optional) show current unhashed password in users page
 # TODO (optional) email
@@ -162,7 +161,7 @@ class UserView(ModelView):
     form_extra_fields = {"change_pword" : PasswordField("Set New Password")}
 
     # List View
-    column_list = ["username", "admin", "votes"]
+    column_list = ["username", "admin"]
     column_exclude_list = ["password_hash"]
     column_filters = ["username", "admin"]
 
@@ -170,7 +169,7 @@ class UserView(ModelView):
     form_create_rules = ["username", "change_pword", "admin"]
 
     # Edit View
-    form_edit_rules = ["username", "change_pword", "admin"]
+    form_edit_rules = ["username", "change_pword", "admin", "votes"]
     form_widget_args = {"votes":{"disabled": True}}
 
     # Deletes all responses that a user has submitted
@@ -253,10 +252,20 @@ class MediaView(ModelView):
             model.poster = "img/" + form.upload.data.filename
 
     # Delete poster image when deleting media from database if not the default image
+    # Also deletes related global polls association objects
     def on_model_delete(self, model):
         if not model.poster == "img/poster.png":
             if(os.path.isfile("app/static/" + model.poster)):
                 os.remove("app/static/" + model.poster)
+
+        assoc2 = GlobalPolls.query.filter(GlobalPolls.m_id == model.id).all()
+        for gp in assoc2:
+            assoc1 = UserPolls.query.filter(UserPolls.gp_id == gp.id).all()
+            for up in assoc1:
+                db.session.delete(up)
+                db.session.commit()
+            db.session.delete(gp)
+            db.session.commit()
 
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):
