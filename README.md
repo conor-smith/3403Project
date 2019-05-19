@@ -1,11 +1,13 @@
 # 3403Project
 
-TODO:
-- the purpose of the web application, explaining both the context and the social choice mechanism used.
-- the architecture of the web application
-- describe how to launch the web application.
-- describe some unit tests for the web application, and how to run them.
-- Include commit logs, showing contributions and review from both contributing students 
+The purpose of this website is for users to rank movies preferentially and then compare their rankings against everyone else in the website. 
+The main theme we had in mind when creating this website was avoiding choice paralysis. This website would be curated by small team with only a few (<=10) polls available to vote on at one time. These polls would be rotated out regularly (weekly, biweekly, etc.), replaced with new polls created by the admin team. 
+To avoid dissatisfaction from the userbase due to movies they believe should be included, the movies
+in the polls should be chosen based on a mix of critical reception and/or audience reception. More specific topics
+are also great for avoiding this issue as the likely candidate pool would shrink (e.g: The best movie of 2019 vs The best movie sound design of 2019). This would also get users thinking more deeply about movies.
+
+## Architecture
+the architecture of the web application
 
 ## Getting Started
 
@@ -54,7 +56,7 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+- describe some unit tests for the web application, and how to run them.
 
 ### Break down into end to end tests
 
@@ -100,3 +102,4 @@ This project is licensed under the GNU General Public License v3.0 or later - se
 * Inspiration
 * etc
 
+## Commit Logs
