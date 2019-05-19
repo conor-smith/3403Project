@@ -9,6 +9,7 @@ from flask_admin.actions import action
 from wtforms import PasswordField
 from wtforms.validators import InputRequired, ValidationError, regexp
 import os
+import warnings
 
 @app.route('/')
 @app.route('/front')
@@ -347,6 +348,8 @@ class PollView(ModelView):
             return redirect(url_for("login", next=request.url))
 
 # Adds a view for each database model
-admin.add_view(UserView(User, db.session))
-admin.add_view(MediaView(Media, db.session))
-admin.add_view(PollView(Poll, db.session))
+with warnings.catch_warnings():
+    warnings.filterwarnings('ignore', 'Fields missing from ruleset', UserWarning)
+    admin.add_view(UserView(User, db.session))
+    admin.add_view(MediaView(Media, db.session))
+    admin.add_view(PollView(Poll, db.session))

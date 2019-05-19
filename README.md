@@ -32,27 +32,37 @@ Give examples
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+There is an included python virtual environment that was used to run this server.  However if you wish to use your own,
+below is instructions on how to do so. You will need to be in the virtual environment whenever you 
+#### Step 1a. Using the included virtual environment
+asdas
 
-#### To add admin account
-- in project directory
-- go into your virtual environment (if needed)
-- open the python interpreter using 'python'
-- do the following commands
-  - from app import db
-  - from app.models import User
-  - u = User(username='usern', admin = 1)
-  - u.set_password('pword')
-  - db.session.add(u)
-  - db.session.commit()
-- replace "usern" with your desired username and "pword" with your desired password
+OR
 
-#### To init db:
-- flask db init
-- flask db migrate
-- flask db upgrade
+#### Step 1b. Creating a python virtual environment
+asdas
 
-End with an example of getting some data out of the system or using it for a little demo
+#### Step 2. Initializing the database
+Use the following commands in order:
+- <code>flask db init</code>
+- <code>flask db migrate</code>
+- <code>flask db upgrade</code>
+
+#### Step 3. Adding an admin account
+- Open the python interpreter using <code>python</code> or <code>python3</code>
+- Replace "USERNAME" with your desired username and "PASSWORD" with your desired password in the following commands
+- Use the following commands in order:
+  - <code>from app import db</code>
+  - <code>from app.models import User</code>
+  - <code>u = User(username='USERNAME', admin = 1)</code>
+  - <code>u.set_password('PASSWORD')</code>
+  - <code>db.session.add(u)</code>
+  - <code>db.session.commit()</code>
+Once you have added the first admin account, adding further admin accounts is made easy using the User page of the admin view of the website.
+
+#### Step 4. Starting then server
+Simply use <code>flask run</code> to start the server. You can then head to 
+[localhost:5000](localhost:5000) or [127.0.0.1:5000](127.0.0.1:5000) to see the website in action.
 
 ## Running the tests
 
