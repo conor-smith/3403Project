@@ -257,15 +257,15 @@ class MediaView(ModelView):
 
 class PollView(ModelView):
     # List View
-    column_list = ["name", "author", "timestamp"]
-    column_filters = ["name", "author.username", "timestamp"]
+    column_list = ["name", "author", "timestamp", "keyword"]
+    column_filters = ["name", "author.username", "timestamp", "keyword"]
 
     # Create View
-    form_create_rules = ["name", "choices"]
+    form_create_rules = ["name", "choices", "keyword"]
 
     # Edit View
     form_edit_rules = ["name", "choices", "active", 
-                        "timestamp", "author"]
+                        "timestamp", "author", "keyword"]
     form_widget_args = {
         "timestamp" : {"disabled": True},
         "author" : {"disabled" : True}
@@ -277,8 +277,11 @@ class PollView(ModelView):
             raise ValidationError('Name Required')
         if not form.choices.data:
             raise ValidationError('Choices Required')
+        if not form.keyword.data:
+            raise ValidationError('Keyword Required')
         # Sets author to user logged in at time
-        model.author = current_user
+        if is_created:
+            model.author = current_user
 
     def on_model_delete(self, model):
         model.choices = []
