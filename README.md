@@ -11,35 +11,30 @@ the architecture of the web application
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on macOS, PLACEHOLDER and PLACEHOLDER.) See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-- flask-wtf
-- Flask-SQLAlchemy
-- Flask-Migrate
-- python-dotenv
-- flask-login
-- flask-admin
-- Pillow
+While in your virtual environment, install the following:
+- [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/)
+  * <code>pip install flask-wtf</code>
+- [SQLAlchemy](https://www.sqlalchemy.org/) and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
+  * <code>pip install flask-sqlalchemy</code>
+- [Flask-Migrate](https://github.com/miguelgrinberg/flask-migrate)
+  * <code>pip install flask-migrate</code>
+- [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
+  * <code>pip install flask-login</code>
+- [Flask-Admin](https://flask-admin.readthedocs.io/en/latest/)
+  * <code>pip install flask-admin</code>
+- [Pillow](https://pillow.readthedocs.io/en/stable/)
+  * <code>pip install pillow</code>
+- [python-dotenv](https://github.com/theskumar/python-dotenv#installation)
+  * <code>pip install -U python-dotenv</code>
 
 
 ### Installing
-
-There is an included python virtual environment that was used to run this server.  However if you wish to use your own,
-below is instructions on how to do so. You will need to be in the virtual environment whenever you 
-#### Step 1a. Using the included virtual environment
-asdas
-
-OR
-
-#### Step 1b. Creating a python virtual environment
+You will need to be in a virtual environment whenever you run the server or follow the below instructions. 
+You <em>can</em> run it without one, but we are not responsible if anything goes wrong.
+#### Step 1 Creating a python virtual environment
 asdas
 
 #### Step 2. Initializing the database
