@@ -137,7 +137,7 @@ class User(UserMixin, db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    # checks if user has already participated in a poll
+    # Checks if user has already participated in a poll
     def already_voted(self, poll):
         for up in self.votes:
             if up.p_gp.parent_poll == poll:
@@ -151,7 +151,7 @@ class User(UserMixin, db.Model):
                 if up.p_gp.parent_poll == poll:
                     db.session.delete(up)
 
-    #Votes on a single entry in a single poll
+    # Votes on a single entry in a single poll
     def vote_on_media(self, poll, media, score):
         for gp in poll.associates:
             if gp.m_id == media.id:

@@ -156,12 +156,13 @@ def change_username():
 # TODO (optional) show current unhashed password in users page
 # TODO (optional) email
 class UserView(ModelView):
+    edit_template = "admin/edit.html"
     # All Views
     form_excluded_columns = ["password_hash"]
-    form_extra_fields = {"change_pword": PasswordField("Set New Password")}
+    form_extra_fields = {"change_pword" : PasswordField("Set New Password")}
 
     # List View
-    column_list = ["username", "admin", "votes"]
+    column_list = ["username", "admin"]
     column_exclude_list = ["password_hash"]
     column_filters = ["username", "admin"]
 
@@ -169,9 +170,20 @@ class UserView(ModelView):
     form_create_rules = ["username", "change_pword", "admin"]
 
     # Edit View
-    form_edit_rules = ["username", "change_pword", "admin",
-                        "votes"]
+    form_edit_rules = ["username", "change_pword", "admin"]
+    form_widget_args = {"votes":{"disabled": True}}
 
+    # Deletes all responses that a user has submitted
+    @action('delresponse', 'Delete All Response(s)', 'Are you sure you want delete these response(s)?')
+    def action_delresponse(self, ids):
+        for _id in ids:
+            user = User.query.get(int(_id))
+            poll = user.all_polls()
+            for p in poll:
+                user.remove_user_poll(p)
+            db.session.commit()
+        flash("{}'s response(s) deleted".format(user.username))
+    
     # Validation and and setting of database fields that are not automatic
     def on_model_change(self, form, model, is_created):
         if is_created:
@@ -183,6 +195,13 @@ class UserView(ModelView):
         if form.change_pword.data:
             model.set_password(form.change_pword.data)
 
+    # Deletes user responses before deleting a user
+    def on_model_delete(self, model):
+        poll = model.all_polls()
+        for p in poll:
+            model.remove_user_poll(p)
+        db.session.commit()
+    
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):
         return current_user.is_authenticated and current_user.admin
@@ -272,7 +291,7 @@ class PollView(ModelView):
         "author" : {"disabled" : True}
         }
 
-    @action('active', 'Set Inactive', 'Are you sure you want to set these polls as inactive?')
+    @action('inactive', 'Set Inactive', 'Are you sure you want to set these poll(s) as inactive?')
     def action_active(self, ids):
         count = 0
         for _id in ids:
