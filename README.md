@@ -6,12 +6,14 @@ To avoid dissatisfaction from the userbase due to movies they believe should be 
 in the polls should be chosen based on a mix of critical reception and/or audience reception. More specific topics
 are also great for avoiding this issue as the likely candidate pool would shrink (e.g: The best movie of 2019 vs The best movie sound design of 2019). This would also get users thinking more deeply about movies.
 
+TODO explain social mechanism/voting mechanism used.
+
 ## Architecture
-the architecture of the web application
+TODO the architecture of the web application
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on macOS, PLACEHOLDER and PLACEHOLDER.) See deployment for notes on how to deploy the project on a live system.
+TODO fill out OS versions
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on Windows, Linux and macOS 10.14.4). See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 While in your virtual environment, install the following:
@@ -30,12 +32,11 @@ While in your virtual environment, install the following:
 - [python-dotenv](https://github.com/theskumar/python-dotenv#installation)
   * <code>pip install -U python-dotenv</code>
 
-
 ### Installing
 You will need to be in a virtual environment whenever you run the server or follow the below instructions. 
 You <em>can</em> run it without one, but we are not responsible if anything goes wrong.
 #### Step 1 Creating a python virtual environment
-asdas
+TODO
 
 #### Step 2. Initializing the database
 Use the following commands in order:
@@ -61,7 +62,7 @@ Simply use <code>flask run</code> to start the server. You can then head to
 
 ## Running the tests
 
-- describe some unit tests for the web application, and how to run them.
+- TODO describe some unit tests for the web application, and how to run them.
 
 ### Break down into end to end tests
 
@@ -88,20 +89,19 @@ Add additional notes about how to deploy this on a live system
 * [Bootstrap](https://getbootstrap.com/) - Javascript Library
 * [Jquery](https://jquery.com/) - Javascript Library
 * [Flask](http://flask.pocoo.org/) - Web Framework
+* and of course good 'ol HTML, CSS and Javascript
 
 ## Authors
-
-* **Billtone Mey Oum** - *Initial work* - [billmey](https://github.com/billmey)
-* **Conor Smith** - *Initial work* - [conor-smith](https://github.com/conor-smith)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+TODO Student number
+* **Billtone Mey Oum (21806052)** - *Initial work* - [billmey](https://github.com/billmey)
+* **Conor Smith ()** - *Initial work* - [conor-smith](https://github.com/conor-smith)
 
 ## License
 
 This project is licensed under the GNU General Public License v3.0 or later - see the [LICENSE.md](LICENSE) file for details
 
 ## Acknowledgments
-
+TODO other references go here like poster image sources
 * [PurpleBooth](https://gist.github.com/PurpleBooth) for the readme template
 * Hat tip to anyone whose code was used
 * Inspiration
