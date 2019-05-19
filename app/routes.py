@@ -252,7 +252,7 @@ class MediaView(ModelView):
             model.poster = "img/" + form.upload.data.filename
 
     # Delete poster image when deleting media from database if not the default image
-    # Also deletes related global polls association objects
+    # Also deletes related association objects
     def on_model_delete(self, model):
         if not model.poster == "img/poster.png":
             if(os.path.isfile("app/static/" + model.poster)):
@@ -283,7 +283,7 @@ class MediaView(ModelView):
             flash("Login required")
             return redirect(url_for("login", next=request.url))
 
-
+# TODO fix bug where deleting media from a poll leaves behind associaton objects where it used to exist
 class PollView(ModelView):
     # List View
     column_list = ["name", "author", "timestamp", "keyword"]
@@ -322,6 +322,7 @@ class PollView(ModelView):
         if is_created:
             model.author = current_user
 
+    # Deletes user votes on the poll that is getting deleted and removes related assocations 
     def on_model_delete(self, model):
         for v in model.voters():
             v.remove_user_poll(model)
