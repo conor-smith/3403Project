@@ -65,7 +65,7 @@ def login():
         return redirect(url_for("front"))
     lform = LoginForm()
     if lform.validate_on_submit():
-        user = User.query.filter_by(username = lform.username.data).first_or_404()
+        user = User.query.filter_by(username = lform.username.data).first()
         if user is None or not user.check_password(lform.password.data):
             flash("Invalid username or password")
             return redirect(url_for("front"))
@@ -162,7 +162,7 @@ class UserView(ModelView):
     form_extra_fields = {"change_pword" : PasswordField("Set New Password")}
 
     # List View
-    column_list = ["username", "admin"]
+    column_list = ["username", "admin", "votes"]
     column_exclude_list = ["password_hash"]
     column_filters = ["username", "admin"]
 
@@ -314,8 +314,12 @@ class PollView(ModelView):
             model.author = current_user
 
     def on_model_delete(self, model):
+        for v in model.voters():
+            v.remove_user_poll(model)
+        db.session.commit()
         model.choices = []
-    
+        model.associates = []
+
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):
         return current_user.is_authenticated and current_user.admin
