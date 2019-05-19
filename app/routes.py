@@ -5,6 +5,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Poll, Media
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form.upload import ImageUploadField
+from flask_admin.actions import action
 from wtforms import PasswordField
 from wtforms.validators import InputRequired, ValidationError, regexp
 import os
@@ -223,7 +224,7 @@ class MediaView(ModelView):
     form_edit_rules = ["title", "poll", "upload"]
     form_args = dict(poll=dict(label="Is In Polls"))
     form_widget_args = {"poll":{"disabled": True}}
-    
+
     # Validation and setting of database fields that are not automatic
     def on_model_change(self, form, model, is_created):
         if not form.title.data:
@@ -271,6 +272,16 @@ class PollView(ModelView):
         "author" : {"disabled" : True}
         }
 
+    @action('active', 'Set Inactive', 'Are you sure you want to set these polls as inactive?')
+    def action_active(self, ids):
+        count = 0
+        for _id in ids:
+            poll = Poll.query.get(int(_id))
+            poll.active = False
+            db.session.commit()
+            count += 1
+        flash("{0} poll(s) set inactive".format(count))
+    
     # Validation and setting of database fields that are not automatic
     def on_model_change(self, form, model, is_created):
         if not form.name.data:
