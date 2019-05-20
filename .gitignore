@@ -1,7 +1,6 @@
 # Testing folder
 test/
 # Database
-app.db
 /migrations
 # vscode
 .vscode/
@@ -136,5 +135,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-img/

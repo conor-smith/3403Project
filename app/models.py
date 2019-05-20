@@ -42,9 +42,9 @@ class Media(db.Model):
         return "<Media {}>".format(self.title)
 
     # Deletes a particular piece of media
-    def delete_media(self):
-        db.session.delete(self)
-        db.session.commit()
+    #def delete_media(self):
+    #    db.session.delete(self)
+    #    db.session.commit()
 
 # Stores all polls
 class Poll(db.Model):
@@ -71,16 +71,20 @@ class Poll(db.Model):
     def add_media(self, media):
         if not self.contains(media):
             self.choices.append(media)
+            return True
+        return False
     
     # Remove media from poll(I don't know if this will be used but it's good to have)
     def remove_media(self, media):
         if self.contains(media):
             self.choices.remove(media)
+            return True
+        return False
 
     # Deletes poll
-    def delete_poll(self):
-        db.session.delete(self)
-        db.session.commit()
+    #def delete_poll(self):
+    #    db.session.delete(self)
+    #    db.session.commit()
     
     # Returns all participants
     def voters(self):
@@ -107,7 +111,7 @@ class Poll(db.Model):
 
     # Deactivates all current open polls
     def close_all():
-        for p in Poll.query.filter(Poll.active).all():
+        for p in Poll.query.filter(Poll.active == True).all():
             p.active = False
         
 # Stores all users
@@ -140,16 +144,18 @@ class User(UserMixin, db.Model):
     # Checks if user has already participated in a poll
     def already_voted(self, poll):
         for up in self.votes:
-            if up.p_gp.parent_poll == poll:
-                return True
+            if not up.p_gp == None:
+                if up.p_gp.parent_poll == poll:
+                    return True
         return False
 
     # Removes previous votes(Used before redoing a poll)
     def remove_user_poll(self, poll):
         if self.already_voted(poll):
             for up in self.votes:
-                if up.p_gp.parent_poll == poll:
-                    db.session.delete(up)
+                if not up.p_gp == None:
+                    if up.p_gp.parent_poll == poll:
+                        db.session.delete(up)
 
     # Votes on a single entry in a single poll
     def vote_on_media(self, poll, media, score):
@@ -162,15 +168,18 @@ class User(UserMixin, db.Model):
     def all_polls(self):
         ap = []
         for up in self.votes:
-            if not up.p_gp.parent_poll in ap:
-                ap.append(up.p_gp.parent_poll)
+            if not up.p_gp == None:
+                if not up.p_gp.parent_poll in ap:
+                    ap.append(up.p_gp.parent_poll)
         return ap
 
+    # Returns results of poll if user has participated in it
     def poll_results(self, poll):
         pr = []
         for up in self.votes:
-            if up.p_gp.parent_poll == poll:
-                pr.append({"Media" : up.p_gp.parent_med , "Score" : up.score})
+            if not up.p_gp == None:
+                if up.p_gp.parent_poll == poll:
+                    pr.append({"Media" : up.p_gp.parent_med , "Score" : up.score})
         return pr
 
 @login.user_loader

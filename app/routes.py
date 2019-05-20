@@ -111,7 +111,7 @@ def about_us():
 @login_required
 def manage_account():
     return render_template("manage_account.html", title="Manage Account", 
-                            pwform=ChangePasswordForm(), unform=ChangeUsernameForm())
+        pwform=ChangePasswordForm(), unform=ChangeUsernameForm())
 
 @app.route('/account_details')
 def account_details():
@@ -157,6 +157,7 @@ def change_username():
 
 
 # DATABASE DASHBOARD ROUTES
+# TODO add ability to delete individual responses (by poll instead of individually)
 # TODO (low priority) edge case where only admin tries to un-admin themselves
 # TODO (optional) show current unhashed password in users page
 # TODO (optional) email
@@ -167,16 +168,31 @@ class UserView(ModelView):
     form_extra_fields = {"change_pword" : PasswordField("Set New Password")}
 
     # List View
-    column_list = ["username", "admin"]
+    column_list = ["username", "admin", "allpolls"]
     column_exclude_list = ["password_hash"]
     column_filters = ["username", "admin"]
+    column_labels = dict(allpolls="Polls")
+    def get_polls(view, context, model, name):
+        if model.all_polls:
+            polls = model.all_polls()
+            label = ""
+            count = 0
+            for p in polls:
+                if count == 0:
+                    label = label + p.name
+                    count = 1
+                else:
+                    label =  label + ", " + p.name
+            return Markup(u"%s" % (label))
+        else:
+            return u""
+    column_formatters = dict(allpolls = get_polls)
 
     # Create View
     form_create_rules = ["username", "change_pword", "admin"]
 
     # Edit View
     form_edit_rules = ["username", "change_pword", "admin", "votes"]
-    form_widget_args = {"votes":{"disabled": True}}
 
     # Deletes all responses that a user has submitted
     @action('delresponse', 'Delete All Response(s)', 'Are you sure you want delete these response(s)?')
@@ -200,6 +216,9 @@ class UserView(ModelView):
         if form.change_pword.data:
             model.set_password(form.change_pword.data)
 
+    def after_model_change(self, form, model, is_created):
+        db.session.commit()
+
     # Deletes user responses before deleting a user
     def on_model_delete(self, model):
         poll = model.all_polls()
@@ -222,7 +241,6 @@ class UserView(ModelView):
         else:
             flash("Login required")
             return redirect(url_for("login", next=request.url))
-
 
 class MediaView(ModelView):
     # All Views
@@ -253,9 +271,16 @@ class MediaView(ModelView):
     def on_model_change(self, form, model, is_created):
         if not form.title.data:
             raise ValidationError('Title Required')
+        # If poster is changed, delete old poster
+        if not is_created:
+            if(not "img/" + form.upload.data.filename == model.poster):
+                os.remove("app/static/" + model.poster)
         # Sets filepath of poster image
         if form.upload.data:
             model.poster = "img/" + form.upload.data.filename
+
+    def after_model_change(self, form, model, is_created):
+        db.session.commit()
 
     # Delete poster image when deleting media from database if not the default image
     # Also deletes related association objects
@@ -272,6 +297,7 @@ class MediaView(ModelView):
                 db.session.commit()
             db.session.delete(gp)
             db.session.commit()
+        db.session.commit()
 
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):
@@ -326,7 +352,10 @@ class PollView(ModelView):
             raise ValidationError('Keyword Required')
         # Sets author to user logged in at time
         if is_created:
-            model.author = current_user
+            model.creator = current_user.id
+    
+    def after_model_change(self, form, model, is_created):
+        db.session.commit()
 
     # Deletes user votes on the poll that is getting deleted and removes related assocations 
     def on_model_delete(self, model):
@@ -335,6 +364,7 @@ class PollView(ModelView):
         db.session.commit()
         model.choices = []
         model.associates = []
+        db.session.commit()
 
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):

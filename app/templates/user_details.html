@@ -13,7 +13,7 @@
     {% for p in current_user.all_polls() %}
     <div class = "col-md-2">
       <a href = "{{ url_for('poll_page', id=p.id) }}">
-        <img class = "img-fluid" src = "{{ url_for('static', filename=p.cover()) }}">
+        <img class = "img-fluid" src = "{{ url_for('static', filename=p.cover()) }}" alt = "{{ p.title }}">
         <h4>{{ p.name }}</h4>
       </a>
     </div>
