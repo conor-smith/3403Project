@@ -2,19 +2,19 @@
 
 {% block content %}
 <main class = "container-fluid">
-  <h2>Vote from 1-10</h2><br>
-  <p>1 = best answers the poll, 10 = least answers the poll</p>
-  <form method = "POST" action = "">
+  <h2>Select the {{ poll.keyword }}</h2>
+  <form id = "poll" method = "POST" action = "">
     {{ vform.hidden_tag() }}
     <div class = "row">
       {% for i in range(length) %}
-      <div class = "col-md-3">
-        <img class = "img-fluid" src = "{{ url_for('static', filename=poll.choices[i].poster) }}"><br>
+      <div class = "col-md-2">
+        <img class = "img-fluid movieCover" src = "{{ url_for('static', filename=poll.choices[i].poster) }}" 
+          alt = "{{ poll.choices[i].title }}">
+        <h4>{{ poll.choices[i].title }}</h4>
         {{ getat(vform, fields[i]) }}
       </div>
       {% endfor %}
     </div>
-    {{ vform.submit }}
   </form>
 </main>
 {% endblock %}

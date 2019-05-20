@@ -14,9 +14,17 @@
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- End of Bootstrap related-->
+    {% if extra_css %}
+    <link rel = "stylesheet"
+    type = "text/css"
+    href = "{{ url_for('static', filename = extra_css) }}">
+    {% endif %}
     <link rel = "stylesheet"
     type = "text/css"
     href = "{{ url_for('static', filename='css/global.css') }}"> <!-- css file -->
+    {% if extra_js %}
+    <script src = "{{ url_for('static', filename = extra_js) }}"></script>
+    {% endif %}
     <script src = "{{ url_for('static', filename='javascript/global.js')}}"></script> <!-- javascript file -->
   </head>
 
@@ -29,6 +37,9 @@
       
       <!-- Left side navbar elements -->
       <ul class = "navbar-nav mr-auto">
+        <li class = "nav-item">
+          <a class = "nav-link" href = "{{ url_for('about_us') }}">About Us</a>
+        </li>
         {% if not current_user.is_anonymous %}
         <li class = "nav-item">
           <a class = "nav-link" href="{{ url_for('archives') }}">Archives</a>
@@ -54,8 +65,9 @@
       {% if current_user and not current_user.is_anonymous %}
         <ul class = "navbar-nav ml-auto">
           <li class = "nav-item">
-            <p class = "nav-link" id="userlogin">Welcome {{ current_user.username }}</p>
-            <a class = "nav-link" id="userlogin" href = "{{ url_for('manage_account') }}">Account Settings</a>
+            <a class = "nav-link" href = "{{ url_for('account_details') }}">
+              Welcome {{ current_user.username }}
+            </a>
           </li>
           <li class = "nav-item">
             <a class = nav-link href = "{{ url_for('logout') }}">Log out</a>
@@ -110,7 +122,8 @@
 
     <!-- FOOTER -->
     <footer>
-      <span id = "lastmod"></span><script>window.onload = lastModified();</script>
+      <p>This website was created by Conor Smith and Billtone Meyoum</p>
+      <p>For support, contact us at conormartindale@gmail.com</p>
     </footer>
   </body>
 </html>

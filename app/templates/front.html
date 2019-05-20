@@ -20,6 +20,7 @@
     <div class = "col-md-4 mb-3">
       <a href = "{{ url_for('poll_page', id = p.id) }}" > <img class = "img-fluid" width = "400" height = "270" 
         src = "{{ url_for('static', filename=p.cover()) }}" alt = "Poll Cover"> </a>
+      <h3>{{ p.name }}</h3>
     </div>
     {% endfor %}
   </div>
