@@ -163,9 +163,25 @@ class UserView(ModelView):
     form_extra_fields = {"change_pword" : PasswordField("Set New Password")}
 
     # List View
-    column_list = ["username", "admin"]
+    column_list = ["username", "admin", "allpolls"]
     column_exclude_list = ["password_hash"]
     column_filters = ["username", "admin"]
+    column_labels = dict(allpolls="Polls")
+    def get_polls(view, context, model, name):
+        if model.all_polls:
+            polls = model.all_polls()
+            label = ""
+            count = 0
+            for p in polls:
+                if count == 0:
+                    label = label + p.name
+                    count = 1
+                else:
+                    label =  label + ", " + p.name
+            return Markup(u"%s" % (label))
+        else:
+            return u""
+    column_formatters = dict(allpolls = get_polls)
 
     # Create View
     form_create_rules = ["username", "change_pword", "admin"]

@@ -140,16 +140,18 @@ class User(UserMixin, db.Model):
     # Checks if user has already participated in a poll
     def already_voted(self, poll):
         for up in self.votes:
-            if up.p_gp.parent_poll == poll:
-                return True
+            if not up.p_gp == None:
+                if up.p_gp.parent_poll == poll:
+                    return True
         return False
 
     # Removes previous votes(Used before redoing a poll)
     def remove_user_poll(self, poll):
         if self.already_voted(poll):
             for up in self.votes:
-                if up.p_gp.parent_poll == poll:
-                    db.session.delete(up)
+                if not up.p_gp == None:
+                    if up.p_gp.parent_poll == poll:
+                        db.session.delete(up)
 
     # Votes on a single entry in a single poll
     def vote_on_media(self, poll, media, score):
@@ -162,15 +164,17 @@ class User(UserMixin, db.Model):
     def all_polls(self):
         ap = []
         for up in self.votes:
-            if not up.p_gp.parent_poll in ap:
-                ap.append(up.p_gp.parent_poll)
+            if not up.p_gp == None:
+                if not up.p_gp.parent_poll in ap:
+                    ap.append(up.p_gp.parent_poll)
         return ap
 
     def poll_results(self, poll):
         pr = []
         for up in self.votes:
-            if up.p_gp.parent_poll == poll:
-                pr.append({"Media" : up.p_gp.parent_med , "Score" : up.score})
+            if not up.p_gp == None:
+                if up.p_gp.parent_poll == poll:
+                    pr.append({"Media" : up.p_gp.parent_med , "Score" : up.score})
         return pr
 
 @login.user_loader
