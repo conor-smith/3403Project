@@ -105,23 +105,21 @@ to rebuild the database.
   * Tests that the 404 page displays properly
 
 ## Built With
-
 * [Bootstrap](https://getbootstrap.com/) - Javascript Library
 * [Jquery](https://jquery.com/) - Javascript Library
 * [Flask](http://flask.pocoo.org/) - Web Framework
 * and of course good 'ol HTML, CSS and Javascript
 
 ## Authors
-TODO Student number
 * **Billtone Mey Oum (21806052)** - *Initial work* - [billmey](https://github.com/billmey)
 * **Conor Smith (21959981)** - *Initial work* - [conor-smith](https://github.com/conor-smith)
 
 ## License
-
 This project is licensed under the GNU General Public License v3.0 or later - see the [LICENSE.md](LICENSE) file for details
 
 ## Acknowledgments
-TODO other references go here like poster image sources
 * [PurpleBooth](https://gist.github.com/PurpleBooth) for the readme template
+* [IMP Awards](http://www.impawards.com/) for various movie posters
+* [Miguel Grinberg](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) for the mega tutorial
 
 ## Commit Logs
