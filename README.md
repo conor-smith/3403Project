@@ -45,15 +45,10 @@ Use the following commands in order:
 - <code>flask db upgrade</code>
 
 #### Step 3. Adding an admin account
-- Open the python interpreter using <code>python</code> or <code>python3</code>
-- Replace "USERNAME" with your desired username and "PASSWORD" with your desired password in the following commands
-- Use the following commands in order:
-  - <code>from app import db</code>
-  - <code>from app.models import User</code>
-  - <code>u = User(username='USERNAME', admin = 1)</code>
-  - <code>u.set_password('PASSWORD')</code>
-  - <code>db.session.add(u)</code>
-  - <code>db.session.commit()</code>
+- Open add_admin.py and replace 'admin' in <code>u = User(username='admin', admin = 1)</code> with your desired username 
+  and replace 'admin' in <code>u.set_password('admin')</code> with your desired password
+- Then use <code>python add_admin.py</code> to add the admin account
+  
 Once you have added the first admin account, adding further admin accounts is made easy using the User page of the admin view of the website.
 
 #### Step 4. Starting then server
