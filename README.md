@@ -13,7 +13,7 @@ TODO the architecture of the web application
 
 ## Getting Started
 TODO fill out OS versions
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on Windows, Linux and macOS 10.14.4). See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on Windows, Linux and macOS 10.14.4).
 
 ### Prerequisites
 While in your virtual environment, install the following:
@@ -80,10 +80,6 @@ Explain what these tests test and why
 Give an example
 ```
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [Bootstrap](https://getbootstrap.com/) - Javascript Library
@@ -94,7 +90,7 @@ Add additional notes about how to deploy this on a live system
 ## Authors
 TODO Student number
 * **Billtone Mey Oum (21806052)** - *Initial work* - [billmey](https://github.com/billmey)
-* **Conor Smith ()** - *Initial work* - [conor-smith](https://github.com/conor-smith)
+* **Conor Smith (21959981)** - *Initial work* - [conor-smith](https://github.com/conor-smith)
 
 ## License
 
@@ -103,8 +99,5 @@ This project is licensed under the GNU General Public License v3.0 or later - se
 ## Acknowledgments
 TODO other references go here like poster image sources
 * [PurpleBooth](https://gist.github.com/PurpleBooth) for the readme template
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
 
 ## Commit Logs

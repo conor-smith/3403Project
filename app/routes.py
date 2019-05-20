@@ -152,6 +152,7 @@ def change_username():
 
 
 # DATABASE DASHBOARD ROUTES
+# TODO add ability to delete individual responses (by poll instead of individually)
 # TODO (low priority) edge case where only admin tries to un-admin themselves
 # TODO (optional) show current unhashed password in users page
 # TODO (optional) email
@@ -171,7 +172,6 @@ class UserView(ModelView):
 
     # Edit View
     form_edit_rules = ["username", "change_pword", "admin", "votes"]
-    form_widget_args = {"votes":{"disabled": True}}
 
     # Deletes all responses that a user has submitted
     @action('delresponse', 'Delete All Response(s)', 'Are you sure you want delete these response(s)?')
@@ -218,7 +218,6 @@ class UserView(ModelView):
             flash("Login required")
             return redirect(url_for("login", next=request.url))
 
-
 class MediaView(ModelView):
     # All Views
     form_extra_fields = {
@@ -248,9 +247,14 @@ class MediaView(ModelView):
     def on_model_change(self, form, model, is_created):
         if not form.title.data:
             raise ValidationError('Title Required')
+        # If poster is changed, delete old poster
+        if not is_created:
+            if(not "img/" + form.upload.data.filename == model.poster):
+                os.remove("app/static/" + model.poster)
         # Sets filepath of poster image
         if form.upload.data:
             model.poster = "img/" + form.upload.data.filename
+
 
     # Delete poster image when deleting media from database if not the default image
     # Also deletes related association objects
