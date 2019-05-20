@@ -4,5 +4,20 @@
 <!-- MAIN CONTENT -->
 <main class = "container-fluid">
   <h1>User Details</h1>
+  <p> UserName: {{ current_user.username }}</p>
+
+  <a class = "btn btn-secondary" href = "{{ url_for('manage_account') }}">Edit account</a><br><br>
+  <h3>Polls I have participated in</h3>
+  <div class = "row" style = "background-color: silver; height: 20px; margin: 5px;"></div>
+  <div class = "row">
+    {% for p in current_user.all_polls() %}
+    <div class = "col-md-2">
+      <a href = "{{ url_for('poll_page', id=p.id) }}">
+        <img class = "img-fluid" src = "{{ url_for('static', filename=p.cover()) }}">
+        <h4>{{ p.name }}</h4>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
 </main>
 {% endblock %}

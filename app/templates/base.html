@@ -37,6 +37,9 @@
       
       <!-- Left side navbar elements -->
       <ul class = "navbar-nav mr-auto">
+        <li class = "nav-item">
+          <a class = "nav-link" href = "{{ url_for('about_us') }}">About Us</a>
+        </li>
         {% if not current_user.is_anonymous %}
         <li class = "nav-item">
           <a class = "nav-link" href="{{ url_for('archives') }}">Archives</a>
@@ -62,8 +65,9 @@
       {% if current_user and not current_user.is_anonymous %}
         <ul class = "navbar-nav ml-auto">
           <li class = "nav-item">
-            <p class = "nav-link" id="userlogin">Welcome {{ current_user.username }}</p>
-            <a class = "nav-link" id="userlogin" href = "{{ url_for('manage_account') }}">Account Settings</a>
+            <a class = "nav-link" href = "{{ url_for('account_details') }}">
+              Welcome {{ current_user.username }}
+            </a>
           </li>
           <li class = "nav-item">
             <a class = nav-link href = "{{ url_for('logout') }}">Log out</a>

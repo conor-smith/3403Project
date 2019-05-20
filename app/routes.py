@@ -113,6 +113,10 @@ def manage_account():
     return render_template("manage_account.html", title="Manage Account", 
                             pwform=ChangePasswordForm(), unform=ChangeUsernameForm())
 
+@app.route('/account_details')
+def account_details():
+    return render_template("user_details.html", title = current_user.username)
+
 
 @app.route('/change_password', methods=['POST'])
 @login_required

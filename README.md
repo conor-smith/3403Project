@@ -6,7 +6,9 @@ To avoid dissatisfaction from the userbase due to movies they believe should be 
 in the polls should be chosen based on a mix of critical reception and/or audience reception. More specific topics
 are also great for avoiding this issue as the likely candidate pool would shrink (e.g: The best movie of 2019 vs The best movie sound design of 2019). This would also get users thinking more deeply about movies.
 
-TODO explain social mechanism/voting mechanism used.
+The voting page for each poll consists of a set of all the movie "posters", or which may be dvd covers or images of the actual movie posters. The user selects them in the order they feel best fits the poll. (eg: For the best sci-fi horror poll, I select Event Horizon first, followed by Alien, etc).
+To prevent confusion, when an option is selected, it disappears, meaning it can not be selected again or unselected. If the user is unhappy with their choices, they may choose to participate again. Doing so will remove all all their previous votes for that particular poll before starting.
+Each movie is assigned a number when the user votes for them, from 1 to however many movies are in the poll (no more than 10). Once this has been done. The data is stored in a votes table. These votes can be aggregated to produce the global results for a particular poll.
 
 ## Architecture
 TODO the architecture of the web application
