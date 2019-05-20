@@ -8,7 +8,8 @@
     <div class = "row">
       {% for i in range(length) %}
       <div class = "col-md-2">
-        <img class = "img-fluid movieCover" src = "{{ url_for('static', filename=poll.choices[i].poster) }}"><br>
+        <img class = "img-fluid movieCover" src = "{{ url_for('static', filename=poll.choices[i].poster) }}">
+        <h4>{{ poll.choices[i].title }}</h4>
         {{ getat(vform, fields[i]) }}
       </div>
       {% endfor %}

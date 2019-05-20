@@ -1,0 +1,17 @@
+.gresults
+{
+  border: solid black 1px;
+  background-color: sliver;
+  padding: 5px;
+}
+
+h3
+{
+  text-align: center;
+}
+
+.first
+{
+  background-color: limegreen;
+  color: white;
+}

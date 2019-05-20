@@ -2,12 +2,16 @@
 
 {% block content %}
 <main class = "container-fluid">
-  <h1>The current results for {{ poll.name }} </h1><br>
+  <h1>The Global Results for {{ poll.name }} </h1><br>
   <div class = "row">
     {% for i in range(length) %}
-    <div class = "col-md-3">
-      <img class = "img-fluid" src = "{{ url_for('static', filename=data[i].Media.poster) }}"><br>
-      <p>Global ranking = {{ i+1 }}</p>
+    {% if i == 0 %}
+    <div class = "col-md-2 gresults first">
+    {% else %}
+    <div class = "col-md-2 gresults">
+    {% endif %}
+      <h3>{{ i+1 }}</h3>
+      <img class = "img-fluid" src = "{{ url_for('static', filename=data[i].Media.poster) }}">
       {% if data[i].UserScore %}
       <br><p>Your ranking = {{ data[i].UserScore }}</p>
       {% endif %}
