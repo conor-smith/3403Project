@@ -5,15 +5,14 @@ The main theme we had in mind when creating this website was avoiding choice par
 To avoid dissatisfaction from the userbase due to movies they believe should be included, the movies
 in the polls should be chosen based on a mix of critical reception and/or audience reception. More specific topics
 are also great for avoiding this issue as the likely candidate pool would shrink (e.g: The best movie of 2019 vs The best movie sound design of 2019). This would also get users thinking more deeply about movies.
-
+Sidenote: We had initially intended to rank  multiple forms of media (movies, music and games) but we scaled down due to time constraints and overcomplexity. This is why in the code, we refer to movies as media.
 TODO explain social mechanism/voting mechanism used.
 
 ## Architecture
 TODO the architecture of the web application
 
 ## Getting Started
-TODO fill out OS versions
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on Windows, Linux and macOS 10.14.4).
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on Linux and macOS).
 
 ### Prerequisites
 While in your virtual environment, install the following:
@@ -56,23 +55,54 @@ Simply use <code>flask run</code> to start the server. You can then head to
 [localhost:5000](localhost:5000) or [127.0.0.1:5000](127.0.0.1:5000) to see the website in action.
 
 ## Running the tests
-To run the unit tests, use <code>python testing.py</code>
+To run the unit tests, use <code>python testing.py</code> 
+When the unit tests are finished you will need to:
+- <code>flask db migrate</code> 
+- <code>flask db upgrade</code>
 
+to rebuild the database.
 ### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+#### User function tests
+- test_set_password
+  * Tests ability to assign and hash a password to a user
+- test_delete_account
+  * Tests ability to delete a user
+- test_already_voted
+  * Tests ability to check if a user has already voted on the poll passed to the function
+- test_remove_user_poll
+  * Tests ability to remove previous votes made on the poll passed to the function
+- test_all_polls
+  * Tests ability to return all polls a user has participated in
+- test_poll_results
+  * Tests ability to return results of a poll if the user has participated in it
+#### Poll function tests
+- test_add_media
+  * Tests ability to add media to a poll
+- test_remove_media
+  * Tests ability to remove media from a poll
+- test_voters
+  * Tests ability to return all participants of a poll
+- test_totals
+  * Tests ability to return global (multiuser) rankings of a poll
+- test_contains
+  * Tests ability to chcek if a poll contains a certain media 
+- test_cover
+  * Tests ability to return the first movie poster of a poll
+- test_close_all
+  * Tests ability to deactivate all active polls (i.e. archive polls)
+#### Routes function tests
+- test_front
+  * Tests that the front page functions
+- test_about_us
+  * Tests that the about us page functions
+- test_login_logout
+  * Tests that the login and logout functionality works
+- test_archives
+  * Tests that the archives page doesn't allow users not logged in
+- test_register
+  * Tests that the register page functions
+- test_missing
+  * Tests that the 404 page displays properly
 
 ## Built With
 
