@@ -211,6 +211,9 @@ class UserView(ModelView):
         if form.change_pword.data:
             model.set_password(form.change_pword.data)
 
+    def after_model_change(self, form, model, is_created):
+        db.session.commit()
+
     # Deletes user responses before deleting a user
     def on_model_delete(self, model):
         poll = model.all_polls()
@@ -271,6 +274,8 @@ class MediaView(ModelView):
         if form.upload.data:
             model.poster = "img/" + form.upload.data.filename
 
+    def after_model_change(self, form, model, is_created):
+        db.session.commit()
 
     # Delete poster image when deleting media from database if not the default image
     # Also deletes related association objects
@@ -287,6 +292,7 @@ class MediaView(ModelView):
                 db.session.commit()
             db.session.delete(gp)
             db.session.commit()
+        db.session.commit()
 
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):
@@ -341,7 +347,10 @@ class PollView(ModelView):
             raise ValidationError('Keyword Required')
         # Sets author to user logged in at time
         if is_created:
-            model.author = current_user
+            model.creator = current_user.id
+    
+    def after_model_change(self, form, model, is_created):
+        db.session.commit()
 
     # Deletes user votes on the poll that is getting deleted and removes related assocations 
     def on_model_delete(self, model):
@@ -350,6 +359,7 @@ class PollView(ModelView):
         db.session.commit()
         model.choices = []
         model.associates = []
+        db.session.commit()
 
     # Check if logged in and is admin when accessing admin pages
     def is_accessible(self):

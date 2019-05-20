@@ -19,10 +19,7 @@ class VoteOnPoll(FlaskForm):
     vote7 = StringField("vote7", default = 10)
     vote8 = StringField("vote8", default = 10)
     vote9 = StringField("vote9", default = 10)
-    vote10 =StringField("vote10", default = 10)
-
-    def get(self, field_name):
-        getattr(self, field_name)
+    vote10 = StringField("vote10", default = 10)
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
