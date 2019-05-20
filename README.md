@@ -37,13 +37,16 @@ While in your virtual environment, install the following:
 You will need to be in a virtual environment whenever you run the server or follow the below instructions. 
 You <em>can</em> run it without one, but we are not responsible if anything goes wrong.
 #### Step 1 Creating a python virtual environment
-TODO
+Use the following commands:
+1. <code>Virtualenv venv</code>
+2. <code>source venv/bin/activate</code>
+3. <code>pip install -r requirements.txt</code>
 
 #### Step 2. Initializing the database
-Use the following commands in order:
-- <code>flask db init</code>
-- <code>flask db migrate</code>
-- <code>flask db upgrade</code>
+Use the following commands:
+1. <code>flask db init</code>
+2. <code>flask db migrate</code>
+3. <code>flask db upgrade</code>
 
 #### Step 3. Adding an admin account
 - Open add_admin.py and replace 'admin' in <code>u = User(username='admin', admin = 1)</code> with your desired username 
