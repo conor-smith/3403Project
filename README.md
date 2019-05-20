@@ -1,15 +1,17 @@
 # 3403Project
-
+## Introduction
+### Context
 The purpose of this website is for users to rank movies preferentially and then compare their rankings against everyone else in the website. 
 The main theme we had in mind when creating this website was avoiding choice paralysis. This website would be curated by small team with only a few (<=10) polls available to vote on at one time. These polls would be rotated out regularly (weekly, biweekly, etc.), replaced with new polls created by the admin team. 
 To avoid dissatisfaction from the userbase due to movies they believe should be included, the movies
 in the polls should be chosen based on a mix of critical reception and/or audience reception. More specific topics
 are also great for avoiding this issue as the likely candidate pool would shrink (e.g: The best movie of 2019 vs The best movie sound design of 2019). This would also get users thinking more deeply about movies.
-Sidenote: We had initially intended to rank  multiple forms of media (movies, music and games) but we scaled down due to time constraints and overcomplexity. This is why in the code, we refer to movies as media.
+Sidenote: We had initially intended to rank multiple forms of media (movies, music and games) but we scaled down due to time constraints and overcomplexity. This is why in the code, we refer to movies as media.
 TODO explain social mechanism/voting mechanism used.
-
-## Architecture
-TODO the architecture of the web application
+### Voting Mechanism
+The voting page for each poll consists of a set of all the movie "posters", or which may be dvd covers or images of the actual movie posters. The user selects them in the order they feel best fits the poll. (eg: For the best sci-fi horror poll, I select Event Horizon first, followed by Alien, etc).
+To prevent confusion, when an option is selected, it disappears, meaning it can not be selected again or unselected. If the user is unhappy with their choices, they may choose to participate again. Doing so will remove all all their previous votes for that particular poll before starting.
+Each movie is assigned a number when the user votes for them, from 1 to however many movies are in the poll (no more than 10). Once this has been done. The data is stored in a votes table. These votes can be aggregated to produce the global results for a particular poll.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes (tested on Linux and macOS).

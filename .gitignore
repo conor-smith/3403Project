@@ -1,7 +1,6 @@
 # Testing folder
 test/
 # Database
-app.db
 /migrations
 # vscode
 .vscode/

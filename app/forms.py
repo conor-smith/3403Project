@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 # https://github.com/wtforms/wtforms/blob/master/src/wtforms/fields/html5.py , it's undocumented on purpose apparently :shrug:
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, ValidationError, Length
 from app.models import User, Poll
 
 
@@ -34,7 +34,7 @@ class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()], 
         render_kw={"placeholder": "Username"})
     #email = EmailField("Email", validators=[InputRequired(), Email()], render_kw={"placeholder": "Email Address"})
-    password = PasswordField("Password", validators=[InputRequired()], 
+    password = PasswordField("Password", validators=[InputRequired(), Length(min = 8)], 
         render_kw={"placeholder": "Password"})
     password2 = PasswordField("Repeat Password", validators=[InputRequired(), EqualTo('password')], 
         render_kw={"placeholder": "Confirm Password"})
@@ -48,7 +48,7 @@ class RegistrationForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     current = PasswordField("Current Password", validators=[InputRequired()], 
         render_kw={"placeholder": "Current Password"})
-    new = PasswordField("New Password", validators=[InputRequired()], 
+    new = PasswordField("New Password", validators=[InputRequired(), Length(min = 8)], 
         render_kw={"placeholder": "New Password"})
     confirm = PasswordField("Confirm New Password", validators=[InputRequired(), EqualTo('new')],
         render_kw={"placeholder": "Confirm New Password"})
@@ -57,6 +57,6 @@ class ChangePasswordForm(FlaskForm):
 class ChangeUsernameForm(FlaskForm):
     current = PasswordField("Current Password", validators=[InputRequired()], 
         render_kw={"placeholder": "Current Password"})
-    new = PasswordField("New Username", validators=[InputRequired()], 
+    new = StringField("New Username", validators=[InputRequired(), Length(max = 16)], 
         render_kw={"placeholder": "New Username"})
     submit = SubmitField("Change Username")
