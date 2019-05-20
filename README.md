@@ -56,8 +56,7 @@ Simply use <code>flask run</code> to start the server. You can then head to
 [localhost:5000](localhost:5000) or [127.0.0.1:5000](127.0.0.1:5000) to see the website in action.
 
 ## Running the tests
-
-- TODO describe some unit tests for the web application, and how to run them.
+To run the unit tests, use <code>python testing.py</code>
 
 ### Break down into end to end tests
 

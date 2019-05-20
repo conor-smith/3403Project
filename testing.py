@@ -11,6 +11,7 @@ class TestProject(unittest.TestCase):
             SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
             SQLALCHEMY_TRACK_MODIFICATIONS = False
         app.config.from_object(Config)
+        app.testing = True
         self.app = app.test_client()
         db.create_all()
         # Users
@@ -169,8 +170,7 @@ class TestProject(unittest.TestCase):
 
     def test_cover(self):
         p = Poll.query.filter_by(name = "testpoll1").first()
-        self.assertEqual("img/test.jpg", p.choices[0].poster)
-        self.assertEqual("img/poster.png", p.choices[1].poster)
+        self.assertEqual(p.cover(), p.choices[0].poster)
 
     def test_close_all(self):
         p = Poll.query.filter_by(name = "testpoll1").first()
@@ -191,6 +191,50 @@ class TestProject(unittest.TestCase):
     #   m.delete_media()
     #    self.assertIsNone(Media.query.filter_by(title = "testmovie1").first())
 
+    # Routes tests
+    def test_front(self):
+        with app.test_client() as c:
+            response = c.get('/')
+            self.assertEqual(response.status_code, 200)
+            response = c.get('/front')
+            self.assertEqual(response.status_code, 200)
+
+    def test_about_us(self):
+        with app.test_client() as c:
+            response = c.get('/about_us')
+            self.assertEqual(response.status_code, 200)
+
+    def login(self, username, password):
+        return self.app.post('/login', data=dict(
+            username=username,
+            password=password
+        ), follow_redirects=True)
+
+    def logout(self):
+        return self.app.get('/logout', follow_redirects=True)
+
+    def register(self, username, password):
+        return self.app.post('/register', data=dict(
+            username=username,
+            password=password
+        ), follow_redirects=True)
+
+    def test_login_logout(self):
+        assert self.login('testadmin', 'admin').status_code == 200
+        assert self.logout().status_code == 200
+
+    def test_archives(self):
+        with app.test_client() as c:
+            response = c.get('/archives')
+            self.assertEqual(response.status_code, 401)
+ 
+    def test_register(self):
+        assert self.register('user2', 'user').status_code == 200
+
+    def test_missing(self):
+        with app.test_client() as c:
+            response = c.get('/abcd')
+            self.assertEqual(response.status_code, 404)
 
 if __name__ == '__main__':
     unittest.main()
