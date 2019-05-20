@@ -111,7 +111,7 @@ def about_us():
 @login_required
 def manage_account():
     return render_template("manage_account.html", title="Manage Account", 
-                            pwform=ChangePasswordForm(), unform=ChangeUsernameForm())
+        pwform=ChangePasswordForm(), unform=ChangeUsernameForm())
 
 @app.route('/account_details')
 def account_details():

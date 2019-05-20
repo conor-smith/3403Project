@@ -11,7 +11,7 @@
     <div class = "col-md-2 gresults">
     {% endif %}
       <h3>{{ i+1 }}</h3>
-      <img class = "img-fluid" src = "{{ url_for('static', filename=data[i].Media.poster) }}">
+      <img class = "img-fluid" src = "{{ url_for('static', filename=data[i].Media.poster) }}" alt = "{{ data[i].Media.title }}">
       {% if data[i].UserScore %}
       <br><p>Your ranking = {{ data[i].UserScore }}</p>
       {% endif %}

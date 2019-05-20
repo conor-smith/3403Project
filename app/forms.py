@@ -51,7 +51,7 @@ class RegistrationForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     current = PasswordField("Current Password", validators=[InputRequired()], 
         render_kw={"placeholder": "Current Password"})
-    new = PasswordField("New Password", validators=[InputRequired()], 
+    new = PasswordField("New Password", validators=[InputRequired(), Length(min = 8)], 
         render_kw={"placeholder": "New Password"})
     confirm = PasswordField("Confirm New Password", validators=[InputRequired(), EqualTo('new')],
         render_kw={"placeholder": "Confirm New Password"})
@@ -60,6 +60,6 @@ class ChangePasswordForm(FlaskForm):
 class ChangeUsernameForm(FlaskForm):
     current = PasswordField("Current Password", validators=[InputRequired()], 
         render_kw={"placeholder": "Current Password"})
-    new = PasswordField("New Username", validators=[InputRequired()], 
+    new = StringField("New Username", validators=[InputRequired(), Length(max = 16)], 
         render_kw={"placeholder": "New Username"})
     submit = SubmitField("Change Username")
